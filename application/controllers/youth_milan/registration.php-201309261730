@@ -1,0 +1,1117 @@
+<?php
+
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Registration extends CI_Controller
+
+{
+
+	function __construct()
+
+	{
+
+		parent::__construct();
+
+		
+
+		$this->load->helper(array('form', 'url', 'html','string'));
+
+		$this->load->library('form_validation');
+		
+		$this->load->library('session');
+
+		$this->load->helper('text');
+
+		$this->load->model('youth_milan/dbyouthmilan');
+		
+		//updated by ketan 20130924
+		$login = $this->session->userdata('id');
+		if($login=='')
+		{
+			redirect(base_url().'youth_milan/login');
+		}
+		//update end
+
+	}
+
+	
+
+	/*public function index()
+
+	{
+
+		$this->view();
+
+	}*/
+
+	public function view()
+	
+	{
+		$id = $this->session->userdata('id');
+		
+		
+		if(isset($_POST['ym_update1']))
+		{
+	
+			$this->form_validation->set_rules('ym_name', 'Name' , 'required');
+			
+			$this->form_validation->set_rules('ym_gender', 'Gender' , 'required');
+			
+			$this->form_validation->set_rules('ym_marital_status', 'Marital Status' , 'required');
+			
+			$this->form_validation->set_rules('ym_children', 'Having Children' , 'required');
+			
+			$this->form_validation->set_rules('ym_height', 'Height' , 'required');
+			
+			$this->form_validation->set_rules('ym_physical_status', 'Physical Status' , 'required');
+			
+		
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+				
+
+			}
+
+			else
+
+			{
+				
+				$data=array(
+
+						'ym_name'=>$this->input->post('ym_name'),
+
+						'ym_gender'=>$this->input->post('ym_gender'),
+						
+						'ym_marital_status'=>$this->input->post('ym_marital_status'),
+						
+						'ym_children'=>$this->input->post('ym_children'),
+						
+						'ym_height'=>$this->input->post('ym_height'),
+						
+						'ym_weight'=>$this->input->post('ym_weight'),
+						
+						'ym_body_type'=>$this->input->post('ym_body_type'),
+						
+						'ym_complexion'=>$this->input->post('ym_complexion'),
+						
+						'ym_physical_status'=>$this->input->post('ym_physical_status'),
+						
+						'ym_blood_group'=>$this->input->post('ym_blood_group'));
+						
+						
+				$data_in=array(
+				
+						'ym_id'=>$id,
+
+						'ym_name'=>$this->input->post('ym_name'),
+
+						'ym_gender'=>$this->input->post('ym_gender'),
+						
+						'ym_marital_status'=>$this->input->post('ym_marital_status'),
+						
+						'ym_children'=>$this->input->post('ym_children'),
+						
+						'ym_height'=>$this->input->post('ym_height'),
+						
+						'ym_weight'=>$this->input->post('ym_weight'),
+						
+						'ym_body_type'=>$this->input->post('ym_body_type'),
+						
+						'ym_complexion'=>$this->input->post('ym_complexion'),
+						
+						'ym_physical_status'=>$this->input->post('ym_physical_status'),
+						
+						'ym_blood_group'=>$this->input->post('ym_blood_group'));
+						
+				
+				$check_id1=$this->dbyouthmilan->check_exists_id1($id);
+				
+				if(sizeof($check_id1)==0)
+				{
+							
+					$result=$this->dbyouthmilan->insert1($data_in);
+							
+				}
+				else
+				{
+							
+					$result=$this->dbyouthmilan->update1($data,$id);
+					
+				}
+						
+				//$this->session->set_flashdata('tab_msg','tab1');
+				
+				$this->session->set_userdata('tab_msg1','Data Sucessfully Updated!!!');
+			
+			}
+		
+			//$data['query'] = $this->dbyouthmilan->get_detail();
+		
+		
+		}
+		
+		
+		if(isset($_POST['ym_update2']))
+		{
+	
+			$this->form_validation->set_rules('ym_mother_tongue', 'Mother Tongue' , 'required');
+			
+			$this->form_validation->set_rules('ym_community', 'Religion' , 'required');
+			
+			$this->form_validation->set_rules('ym_caste', 'Caste' , 'required');
+			
+		
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+
+			{
+				$data=array(
+
+						'ym_mother_tongue'=>$this->input->post('ym_mother_tongue'),
+
+						'ym_community'=>$this->input->post('ym_community'),
+						
+						'ym_caste'=>$this->input->post('ym_caste'),
+						
+						'ym_sub_caste'=>$this->input->post('ym_sub_caste'),
+						
+						'ym_gothram'=>$this->input->post('ym_gothram'));
+						
+				$data_in=array(
+				
+						'ym_id'=>$id,
+
+						'ym_mother_tongue'=>$this->input->post('ym_mother_tongue'),
+
+						'ym_community'=>$this->input->post('ym_community'),
+						
+						'ym_caste'=>$this->input->post('ym_caste'),
+						
+						'ym_sub_caste'=>$this->input->post('ym_sub_caste'),
+						
+						'ym_gothram'=>$this->input->post('ym_gothram'));
+						
+						
+				$check_id2=$this->dbyouthmilan->check_exists_id2($id);
+				
+				if(sizeof($check_id2)==0)
+				{
+							
+					$result=$this->dbyouthmilan->insert2($data_in);
+							
+				}
+				else
+				{
+							
+					$result=$this->dbyouthmilan->update2($data,$id);
+					
+				}
+				
+				//$this->session->set_flashdata('tab_msg','tab2');	
+				
+				$this->session->set_userdata('tab_msg2','Data Sucessfully Updated!!!');	
+			
+			}
+		
+			//$data['query'] = $this->dbyouthmilan->get_detail();
+		
+		
+		}
+		
+		
+		if(isset($_POST['ym_update3']))
+		{
+	
+			$this->form_validation->set_rules('ym_age', 'Age' , 'required|numeric');
+			
+			$this->form_validation->set_rules('ym_manglik', 'Manglik' , 'required');
+			
+			
+		
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+
+			{
+			
+				$hour=$this->input->post('ym_hour');
+				
+				$ampm=$this->input->post('ym_am_pm');
+				
+				$minute=$this->input->post('ym_minute');
+				
+				$time=$hour.":".$minute." ".$ampm;
+				
+				$data=array(
+
+						'ym_age'=>$this->input->post('ym_age'),
+
+						'ym_birth_date'=>$this->input->post('ym_birth_date'),
+						
+						'ym_birth_time'=>$time,
+						
+						'ym_birth_place'=>$this->input->post('ym_birth_place'),
+						
+						'ym_nakshatra'=>$this->input->post('ym_nakshatra'),
+						
+						'ym_raasi'=>$this->input->post('ym_raasi'),
+						
+						'ym_manglik'=>$this->input->post('ym_manglik'));
+						
+				$data_in=array(
+				
+						'ym_id'=>$id,
+
+						'ym_age'=>$this->input->post('ym_age'),
+
+						'ym_birth_date'=>$this->input->post('ym_birth_date'),
+						
+						'ym_birth_time'=>$time,
+						
+						'ym_birth_place'=>$this->input->post('ym_birth_place'),
+						
+						'ym_nakshatra'=>$this->input->post('ym_nakshatra'),
+						
+						'ym_raasi'=>$this->input->post('ym_raasi'),
+						
+						'ym_manglik'=>$this->input->post('ym_manglik'));
+						
+						
+				$check_id3=$this->dbyouthmilan->check_exists_id3($id);
+				
+				if(sizeof($check_id3)==0)
+				{
+							
+					$result=$this->dbyouthmilan->insert3($data_in);
+							
+				}
+				else
+				{
+							
+					$result=$this->dbyouthmilan->update3($data,$id);
+					
+				}
+				
+				//$this->session->set_flashdata('tab_msg','tab3');	
+				
+				$this->session->set_userdata('tab_msg3','Data Sucessfully Updated!!!');
+			
+			}
+		
+			//$data['query'] = $this->dbyouthmilan->get_detail();
+		
+		
+		}
+	
+		if(isset($_POST['ym_update4']))
+		{
+	
+			$this->form_validation->set_rules('ym_degree_level', 'Degree Level' , 'required');
+			
+			$this->form_validation->set_rules('ym_study_area', 'Study Area' , 'required');
+			
+			$this->form_validation->set_rules('ym_occupation', 'Occupation' , 'required');
+			
+			//added by dharati 201309251510
+			
+			$this->form_validation->set_rules('ym_annual_income', 'Annual Income' , 'numeric');
+			
+			//end
+						
+		
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+
+			{
+				
+				$data=array(
+
+						'ym_degree_level'=>$this->input->post('ym_degree_level'),
+
+						'ym_study_area'=>$this->input->post('ym_study_area'),
+						
+						'ym_education_detail'=>$this->input->post('ym_education_detail'),
+						
+						'ym_occupation'=>$this->input->post('ym_occupation'),
+						
+						'ym_occupation_detail'=>$this->input->post('ym_occupation_detail'),
+						
+						'ym_annual_income'=>$this->input->post('ym_annual_income'));
+						
+				$data_in=array(
+				
+						'ym_id'=>$id,
+
+						'ym_degree_level'=>$this->input->post('ym_degree_level'),
+
+						'ym_study_area'=>$this->input->post('ym_study_area'),
+						
+						'ym_education_detail'=>$this->input->post('ym_education_detail'),
+						
+						'ym_occupation'=>$this->input->post('ym_occupation'),
+						
+						'ym_occupation_detail'=>$this->input->post('ym_occupation_detail'),
+						
+						'ym_annual_income'=>$this->input->post('ym_annual_income'));
+						
+						
+				$check_id4=$this->dbyouthmilan->check_exists_id4($id);
+				
+				if(sizeof($check_id4)==0)
+				{
+							
+					$result=$this->dbyouthmilan->insert4($data_in);
+							
+				}
+				else
+				{
+							
+					$result=$this->dbyouthmilan->update4($data,$id);
+					
+				}		
+				
+				//$this->session->set_flashdata('tab_msg','tab4');
+				
+				$this->session->set_userdata('tab_msg4','Data Sucessfully Updated!!!');
+			
+			}
+		
+			//$data['query'] = $this->dbyouthmilan->get_detail();
+		
+		
+		}
+		
+		if(isset($_POST['ym_update5']))
+		{
+		
+			$this->form_validation->set_rules('ym_diet_preferences', 'Diet Preferences' , 'required');
+			
+			$this->form_validation->set_rules('ym_smoking', 'Smoking' , 'required');
+			
+			$this->form_validation->set_rules('ym_drinking', 'Drinking' , 'required');
+			
+			
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+
+			{
+				
+				$data=array(
+
+						'ym_diet_preferences'=>$this->input->post('ym_diet_preferences'),
+
+						'ym_smoking'=>$this->input->post('ym_smoking'),
+						
+						'ym_drinking'=>$this->input->post('ym_drinking'));
+						
+				$data_in=array(
+				
+						'ym_id'=>$id,
+
+						'ym_diet_preferences'=>$this->input->post('ym_diet_preferences'),
+
+						'ym_smoking'=>$this->input->post('ym_smoking'),
+						
+						'ym_drinking'=>$this->input->post('ym_drinking'));
+						
+						
+						
+				$check_id5=$this->dbyouthmilan->check_exists_id5($id);
+				
+				if(sizeof($check_id5)==0)
+				{
+							
+					$result=$this->dbyouthmilan->insert5($data_in);
+							
+				}
+				else
+				{
+							
+					$result=$this->dbyouthmilan->update5($data,$id);
+					
+				}		
+				
+				//$this->session->set_flashdata('tab_msg','tab5');
+				
+				$this->session->set_userdata('tab_msg5','Data Sucessfully Updated!!!');
+			
+			}
+			
+		}
+		
+		if(isset($_POST['ym_update6']))
+		{
+			
+			$this->form_validation->set_rules('ym_citizen_country', 'Country' , 'required');
+			
+			$this->form_validation->set_rules('ym_citizen_state', 'State' , 'required');
+			
+			$this->form_validation->set_rules('ym_citizen_city', 'City' , 'required');
+			
+			$this->form_validation->set_rules('ym_living_country', 'Country' , 'required');
+			
+			$this->form_validation->set_rules('ym_living_state', 'State' , 'required');
+			
+			$this->form_validation->set_rules('ym_living_city', 'City' , 'required');
+			
+			$this->form_validation->set_rules('ym_living_status', 'Living Status' , 'required');
+			
+			//added by dharati 201309251500
+			
+			$this->form_validation->set_rules('ym_email', 'Email' , 'valid_email');
+			
+			//end
+			
+			
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+
+			{
+				
+				$data=array(
+
+						'ym_citizen_country'=>$this->input->post('ym_citizen_country'),
+
+						'ym_citizen_state'=>$this->input->post('ym_citizen_state'),
+						
+						'ym_citizen_city'=>$this->input->post('ym_citizen_city'),
+						
+						'ym_living_country'=>$this->input->post('ym_living_country'),
+						
+						'ym_living_state'=>$this->input->post('ym_living_state'),
+						
+						'ym_living_city'=>$this->input->post('ym_living_city'),
+						
+						'ym_living_status'=>$this->input->post('ym_living_status'),
+						
+						'ym_address'=>$this->input->post('ym_address'),
+						
+						'ym_phone'=>$this->input->post('ym_phone'),
+						
+						'ym_email'=>$this->input->post('ym_email'));
+						
+				$data_in=array(
+				
+						'ym_id'=>$id,
+
+						'ym_citizen_country'=>$this->input->post('ym_citizen_country'),
+
+						'ym_citizen_state'=>$this->input->post('ym_citizen_state'),
+						
+						'ym_citizen_city'=>$this->input->post('ym_citizen_city'),
+						
+						'ym_living_country'=>$this->input->post('ym_living_country'),
+						
+						'ym_living_state'=>$this->input->post('ym_living_state'),
+						
+						'ym_living_city'=>$this->input->post('ym_living_city'),
+						
+						'ym_living_status'=>$this->input->post('ym_living_status'),
+						
+						'ym_address'=>$this->input->post('ym_address'),
+						
+						'ym_phone'=>$this->input->post('ym_phone'),
+						
+						'ym_email'=>$this->input->post('ym_email'));
+						
+						
+				$check_id6=$this->dbyouthmilan->check_exists_id6($id);
+				
+				if(sizeof($check_id6)==0)
+				{
+							
+					$result=$this->dbyouthmilan->insert6($data_in);
+							
+				}
+				else
+				{
+							
+					$result=$this->dbyouthmilan->update6($data,$id);
+					
+				}		
+				
+				//$this->session->set_flashdata('tab_msg','tab6');
+				
+				$this->session->set_userdata('tab_msg6','Data Sucessfully Updated!!!');
+				
+			}
+			
+		}
+		
+		if(isset($_POST['ym_update7']))
+		{
+		
+			$config['upload_path'] = './images/youth_milan/profile';
+			
+			$config['allowed_types'] = 'gif|jpg|png';
+	
+			$this->load->library('upload', $config);
+
+						
+			$this->upload->do_upload('ym_photo');
+			
+			$data1=array(
+
+						'ym_brief_about_self'=>$this->input->post('ym_brief_about_self'));
+						
+			$data1_in=array(
+			
+						'ym_id'=>$id,
+
+						'ym_brief_about_self'=>$this->input->post('ym_brief_about_self'));
+						
+			$data2=array(
+
+						'ym_photo'=>$this->upload->file_name);
+						
+			$data2_in=array(
+
+						'ym_photo'=>$this->upload->file_name,
+						
+						'ym_id'=>$id);
+						
+			
+			//////////updated by dharati 201309251835///////////////
+			
+			$check_id7_1=$this->dbyouthmilan->check_exists_id7_1($id);
+			
+			$check_id7_2=$this->dbyouthmilan->check_exists_id7_2($id);
+				
+			if(sizeof($check_id7_1)==0)
+			{ 
+							
+				$result1=$this->dbyouthmilan->insert7_1($data1_in);
+							
+			}
+			else
+			{
+							
+				$result1=$this->dbyouthmilan->update7_1($data1,$id);
+					
+			}		
+			if(sizeof($check_id7_2)==0)
+			{ 
+							
+				$result2=$this->dbyouthmilan->insert7_2($data2_in);
+							
+			}
+			else
+			{
+							
+				$result2=$this->dbyouthmilan->update7_2($data2,$id);
+					
+			}	
+						
+			///////////////////end///////////////////
+			
+			//$this->session->set_flashdata('tab_msg','tab7');
+			
+			$this->session->set_userdata('tab_msg7','Data Sucessfully Updated!!!');
+
+			
+		}
+		
+		if(isset($_POST['ym_update8']))
+		{
+			
+			$this->form_validation->set_rules('ym_login_id', 'Login Id' , 'required');
+			
+			if($this->input->post('ym_password')!="")
+			{
+			
+				$this->form_validation->set_rules('ym_password', 'Password' , 'callback_password_check');
+			
+				$this->form_validation->set_rules('ym_new_password', 'New Password' , 'required');
+				
+				$this->form_validation->set_rules('ym_confirm_new_password', 'Confirm New Password' , 'required|matches[ym_new_password]');
+				
+			}
+			
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+
+			{
+				if($this->input->post('ym_password')!="")
+				{
+				
+					$data=array(
+	
+							'mm_username'=>$this->input->post('ym_login_id'),
+							
+							'mm_password'=>md5($this->input->post('ym_new_password')));
+				}
+				else
+				{
+					$data=array(
+	
+							'mm_username'=>$this->input->post('ym_login_id'));
+					
+				}
+							
+				$result=$this->dbyouthmilan->update8($data,$id);	
+				
+				$this->session->set_userdata('tab_msg8','Data Sucessfully Updated!!!');
+			}
+			
+		}
+		
+		//id exits or not for tab1
+		
+		$check_id1=$this->dbyouthmilan->check_exists_id1($id);
+		
+		if(sizeof($check_id1)==0)
+		{
+					
+			$data['check1']=true;
+					
+		}
+		else
+		{
+					
+			$data['check1']=false;
+			
+			
+		}
+		
+		$data['query1'] = $check_id1;
+		
+		
+		//id exits or not for tab2
+		
+		$check_id2=$this->dbyouthmilan->check_exists_id2($id);
+		
+		if(sizeof($check_id2)==0)
+		{
+					
+			$data['check2']=true;
+					
+		}
+		else
+		{
+					
+			$data['check2']=false;
+			
+			
+		}
+		
+		$data['query2'] = $check_id2;
+		
+		
+		//id exits or not for tab3
+		
+		$check_id3=$this->dbyouthmilan->check_exists_id3($id);
+		
+		if(sizeof($check_id3)==0)
+		{
+					
+			$data['check3']=true;
+					
+		}
+		else
+		{
+					
+			$data['check3']=false;
+			
+			
+		}
+		
+		$data['query3'] = $check_id3;
+		
+		
+		//id exits or not for tab4
+		
+		$check_id4=$this->dbyouthmilan->check_exists_id4($id);
+		
+		if(sizeof($check_id4)==0)
+		{
+					
+			$data['check4']=true;
+					
+		}
+		else
+		{
+					
+			$data['check4']=false;
+			
+			
+		}
+		
+		$data['query4'] = $check_id4;
+		
+		
+		//id exits or not for tab5
+		
+		$check_id5=$this->dbyouthmilan->check_exists_id5($id);
+		
+		if(sizeof($check_id5)==0)
+		{
+					
+			$data['check5']=true;
+					
+		}
+		else
+		{
+					
+			$data['check5']=false;
+			
+			
+		}
+		
+		$data['query5'] = $check_id5;
+		
+		
+		//id exits or not for tab6
+		
+		$check_id6=$this->dbyouthmilan->check_exists_id6($id);
+		
+		if(sizeof($check_id6)==0)
+		{
+					
+			$data['check6']=true;
+					
+		}
+		else
+		{
+					
+			$data['check6']=false;
+			
+			
+		}
+		
+		$data['query6'] = $check_id6;
+		
+		
+		//id exits or not for tab7
+		
+		$check_id7_1=$this->dbyouthmilan->check_exists_id7_1($id);
+		
+		if(sizeof($check_id7_1)==0)
+		{
+					
+			$data['check7']=true;
+					
+		}
+		else
+		{
+					
+			$data['check7']=false;
+			
+			
+		}
+		
+		$data['query7'] = $check_id7_1;
+		
+		
+		//get data for tab8
+		
+		$check_id8=$this->dbyouthmilan->check_exists_id8($id);
+		
+		$data['query8'] = $check_id8;
+		
+	
+		//$data['query'] = $this->dbyouthmilan->get_detail($id);
+	
+		$data['title']="Youth Milan - Registration";
+
+		$this->load->view('youth_milan/registration/registration',$data);
+
+	}
+	
+	function password_check($password)
+	{
+		//$pid=$this->uri->segment(4);
+		
+		$result=$this->dbyouthmilan->get_old_password($this->session->userdata('id'));
+		
+		$dbpassword=$result->mm_password;
+		
+		$txtpassword=md5($password);
+		
+		if($dbpassword!=$txtpassword)
+		{
+					
+			$this->form_validation->set_message('password_check', 'please,enter the correct password.');
+			
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+			
+		}
+		
+		
+	}
+	
+	
+	//search profile
+	
+	/*function search()
+	{
+	
+		$id = $this->session->userdata('id');
+		
+		if($id!="")
+		{
+			
+			redirect(''.base_url().'youth_milan/login');
+			
+		}
+		
+		$data['flag']=FALSE;
+	
+		if(isset($_POST["ym_search_btn"]))
+		{
+		
+			$this->form_validation->set_rules('ym_search', 'Search' , 'required');
+			
+			if ($this->form_validation->run() == FALSE)
+
+			{
+
+		
+
+			}
+
+			else
+			{
+				
+				$search=$this->input->post('ym_search');
+				
+				$data['flag']=TRUE;
+				
+				$data['search']=$this->dbyouthmilan->get_search_profile($search);
+				
+			}
+
+			
+		}
+		
+		$data['title']="Youth Milan - Search Profile";
+		
+		$this->load->view('youth_milan/search_profile',$data);
+		
+		
+	}*/
+	
+	function more_detail($id)
+	{
+		
+		$data['query1']=$this->dbyouthmilan->check_exists_id1($id);
+		
+		$data['query2']=$this->dbyouthmilan->check_exists_id2($id);
+		
+		$data['query3']=$this->dbyouthmilan->check_exists_id3($id);
+		
+		$data['query4']=$this->dbyouthmilan->check_exists_id4($id);
+		
+		$data['query5']=$this->dbyouthmilan->check_exists_id5($id);
+		
+		$data['query6']=$this->dbyouthmilan->check_exists_id6($id);
+		
+		$data['query7_1']=$this->dbyouthmilan->check_exists_id7_1($id);
+		
+		$data['query7_2']=$this->dbyouthmilan->check_exists_id7_2($id);
+		
+		
+	
+		$data['title']="Youth Milan - More detail";
+		
+		$this->load->view('youth_milan/more_detail',$data);
+	}
+	//added by ketan 201309241330
+	public function search()
+	{
+		if($this->uri->segment(4))
+		{
+			
+			$search_key = $this->uri->segment(4);
+			//$mm_type = $this->uri->segment(5);
+		}
+		else
+		{
+			$search_key = 0;
+			//$mm_type = 0;
+		}
+		
+		if(isset($_POST['ym_search']))
+		{
+			$search_key = $_POST['ym_search'];
+			$this->session->set_userdata('search_profile',$search_key);
+		}
+		if($search_key == '0')
+		{
+			$search_key = "";
+			$num_rec=$this->dbyouthmilan->count_search_profile($search_key);
+		}
+		else
+		{
+			$num_rec=$this->dbyouthmilan->count_search_profile($search_key);
+		}
+		
+		
+		
+		$this->load->library('pagination');
+
+		$data['tot_rec'] = $num_rec;
+		
+		
+		if($search_key == "")
+		{
+			$search_key = 0;
+			$config['base_url'] = base_url().'youth_milan/registration/search/'.$search_key.'/';
+		}
+		else
+		{
+			$config['base_url'] = base_url().'youth_milan/registration/search/'.$search_key.'/';
+		}
+		
+		
+		
+
+		$config['total_rows'] = $num_rec;
+
+		$config['per_page'] = 10;
+
+		$config['uri_segment'] = 5;
+
+		$config['full_tag_open'] = '<div align="center" class="pagination"><ul>';
+
+		$config['full_tag_close'] = '</ul></div>';
+
+		
+
+		$config['first_link'] = 'First';
+
+		$config['first_tag_open'] = '<li>';
+
+		$config['first_tag_close']  = '</li>';
+
+		
+
+		$config['last_link'] = 'Last';
+
+		$config['last_tag_open'] = '<li>';
+
+		$config['last_tag_close'] = '</li>';
+
+		
+
+		$config['next_link'] = 'Next';
+
+		$config['next_tag_open'] = '<li>';
+
+		$config['next_tag_close'] = '</li>';
+
+		
+
+		$config['prev_link'] = 'Prev';
+
+		$config['prev_tag_open'] = '<li>';
+
+		$config['prev_tag_close']  = '</li>';
+
+		
+
+		$config['cur_tag_open'] = '<li class="active"><a>';
+
+		$config['cur_tag_close'] = '</a></li>';
+
+		
+
+		$config['num_tag_open'] = '<li>';
+
+		$config['num_tag_close'] = '</li>';
+
+
+
+		if ($this->uri->segment(5) == "")
+
+		{
+
+			$segment  = 0;
+
+		}
+
+		else
+
+		{
+
+			$segment = $this->uri->segment(5);	
+
+		}
+
+		
+		if($search_key == '0')
+		{
+			$search_key = "";
+			$data['search']=$this->dbyouthmilan->get_search_profile_pagination($search_key,$config['per_page'],$segment);
+			//$data['query'] = $this->dbform->get_all_reg_form($search_key,$config['per_page'],$segment);
+		}
+		else
+		{
+			$data['search']=$this->dbyouthmilan->get_search_profile_pagination($search_key,$config['per_page'],$segment);
+		}
+
+		$this->pagination->initialize($config);
+
+		
+
+		
+					
+		$data['title']="Youth Milan - Search Profile";
+		
+		$this->load->view('youth_milan/search_profile',$data);
+		
+
+		
+
+	}
+	//update end
+	
+}
+
+?>

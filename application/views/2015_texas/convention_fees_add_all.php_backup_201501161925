@@ -1,0 +1,816 @@
+<style>
+.anchor_add_remove{
+	height: 1px;
+    left: 96%;
+    position: relative;
+    top: -25px;
+	float:left;
+	padding:2px;
+	/*padding-top: 3px;*/
+	/*height: 25px;*/
+}
+
+.add_rm
+{
+	position:relative;
+	margin-left:0% !important;
+	float:left;
+}
+
+.add_rm_before
+{
+	position:relative;
+	margin-left:3%;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .mystyle{float:left;}
+}
+.formA
+{
+	margin:0  !important;
+
+}
+.tbl_class1 tr td
+{ 
+border-radius:5px; background:#f9f8f8; border:solid #E8E8E8 1px;	
+}
+.menu_clr
+{
+	color:#469AE9;
+
+}
+.ped_l {
+	padding-left:5px;
+}
+
+
+
+.title-bor{background-color:#469AE9; color:#FFF; border:solid #004e97 1px; padding:0 0 0 5px;}
+
+</style>
+
+<table class="tbl_class" border="0" cellspacing="0" cellpadding="0" align="center" style="min-height:300px; width:100%;"> 
+  <tr>
+  	<td>
+    	 	<?php
+				
+                $form_attributes = array('class' => 'formA', 'id' => 'myform' );
+
+                echo form_open('', $form_attributes);
+
+            ?>
+			<?php
+			
+			//$chapter = $this->dbconvention_registration->get_chapter_from_mm_id($this->session->userdata('user_id'));
+			//var_dump($chapter);
+			?>
+           <table border="1" width="100%" cellpadding="2" cellspacing="0" class="tbl_class1">
+           <tr>
+           <td  colspan="3">
+           		<div style="float:left;">
+                <b class="menu_clr  ped_l">Registration Form : </b>
+                </div>
+           </td>
+           </tr>
+           <tr>
+           <td style="width:30%;">
+           <div style="float:left; " class="ped_l">
+                SPCS Chapter:<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->ch_name; ?></b>
+                </div>
+           </td>
+           <td style="width:60%;" colspan="2">
+           <div style="float:left;" class="ped_l">
+                 Life Member Number : <!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_life_id;?></b>-->
+                 <!--<input type="text" placeholder="Enter Life Member Number" style="width:200px; margin:0;"  id="txtzipcode" name="" value="<?php ?>"/>-->
+                </div>
+           </td>
+           </tr>
+           <tr>
+           <td>
+           		<div style="float:left;" class="ped_l <?php if(form_error('lname')){ echo "error";}?>">
+                Last name : <!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_lname; ?></b>-->
+                <input type="text" placeholder="Enter Last Name" style="width:200px; margin:0;"  id="txtlname" name="lname" value="<?php echo set_value('lname'); ?>"/>
+                </div>
+           </td>
+           <td>
+           		<div style="float:left;" class="ped_l <?php if(form_error('fname')){ echo "error";}?>">
+                 First Name :  <!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_fname; ?></b>-->
+                 <input type="text" placeholder="Enter First Name" style="width:200px; margin:0;"  id="txtfname" name="fname" value="<?php echo set_value('fname'); ?>"/>
+                </div>
+           </td>
+           <td>
+				<div style="float:left;" class="ped_l <?php if(form_error('address')){ echo "error";}?>">
+                Address : <!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_address; ?></b>-->
+                <textarea type="text" placeholder="Enter Address" style=""  id="txtaddress" name="address" "/><?php echo set_value('address');?></textarea>
+                </div>
+           </td>
+           </tr>
+           <tr>
+           <td>
+           		<div style="float:left;" class="ped_l <?php if(form_error('mm_state_id')){ echo "error";}?>">
+                
+                <?php //$get_state = $this->dbconvention_registration->state_reg($chapter->mm_state_id);?>
+                State : <select tabindex="13" class="input-large" name="mm_state_id" id="mm_state_id">
+
+                <option value="">Please Select</option>
+
+                <?php
+
+					$get_states = $this->dbconvention_registrationall->states(); 
+					foreach($get_states as $get_states_row){ ?>
+					<option <?php if(set_value('mm_state_id') == $get_states_row->state_id){ echo 'selected="selected"';}?> value="<?php echo $get_states_row->state_id; ?>"><?php echo $get_states_row->state_name; ?></option>
+                    <?php } ?>
+
+                </select>
+                <span class="help-inline"><span id="mm_state_id_loading" class="loading" style="display:none;">
+                </div>
+           </td>
+           <td>
+           		<div style="float:left;" class="ped_l <?php if(form_error('mm_city_id')){ echo "error";}?>">
+                <?php //$get_cities = $this->dbconvention_registration->cities_reg($chapter->mm_city_id);?>
+                City : <select tabindex="14" class="input-xlarge" name="mm_city_id" id="mm_city_id">
+
+                <option>Select City</option>
+
+                </select>
+                </div>
+           </td>
+           
+           <td>
+				<div style="float:left;" class="ped_l">
+                <div class="<?php if(form_error('txtzipcode')){ echo "error";}?>"> 
+            	<div class="controls">
+                    Zip Code : <input type="text" placeholder="Enter zip code" style="width:200px; margin:0;"  id="txtzipcode" name="txtzipcode" value="<?php echo set_value('txtzipcode'); ?>"/>
+                </div>
+           		</div>
+                </div>
+           </td>
+            
+           </tr>
+            
+           <tr>
+           <td>
+           		<div style="float:left;" class="ped_l <?php if(form_error('txtphoneh')) echo 'error';?>">
+                Phone No (H) : 
+                <input type="text" placeholder="Enter Phone" style="width:200px; margin:0;"  id="txtphoneh" name="txtphoneh" value="<?php echo set_value('txtphoneh'); ?>"/>
+                </div>
+           </td>
+           <td colspan="2">
+           		 <div style="float:left;" class="ped_l <?php if(form_error('txtphonec')) echo 'error';?>">
+                (C) : 
+                <input type="text" placeholder="Enter Phone" style="width:200px; margin:0;"  id="txtphonec" name="txtphonec" value="<?php echo set_value('txtphonec'); ?>"/>
+                </div>
+           </td>
+            
+           </tr>
+           <tr>
+           <td colspan="3">
+           		<div style="float:left;" class="ped_l <?php if(form_error('txtemail')){ echo "error";}?>">
+                Email : 
+                <input type="text" placeholder="Enter Email" style="width:200px; margin:0;"  id="txtemail" name="txtemail" value="<?php echo set_value('txtemail'); ?>"/>
+				<?php echo form_error('txtemail');?>
+                </div>
+           </td>
+           </tr>
+           <tr>
+           <td colspan="3">
+           		<div style="float:left;" class="ped_l">
+         		<div class="<?php if(form_error('txtem_con_name')){ echo "error";}?>">
+            	<div class="controls">
+				Emergency Contact Name(Not Listed Below) :<input type="text" placeholder="Enter name" style="width:424px;margin:0;" name="txtem_con_name" value="<?php echo set_value('txtem_con_name'); ?>"/>
+				</div>
+				</div>
+                </div>
+           </td>
+          
+        
+           </tr>
+		   <tr>
+		   <td colspan="3">
+           		 <div style="float:left;" class="ped_l">
+               <div class="<?php if(form_error('txtem_con_name')){ echo "error";}?>">
+            	<div class="controls">
+				<label style="width:68px; float:left">Phone :</label><input type="text" placeholder="Enter number" style="width:424px;margin-left:218px;" name="txtem_con_number" value="<?php echo set_value('txtem_con_number'); ?>"/>
+				
+                </div>
+				</div>
+				</div>
+           </td>
+		   </tr>
+		   <tr >
+		   <td colspan="3">
+           		 <div style="float:left;" class="ped_l">
+               <div class="<?php if(form_error('txtem_con_name')){ echo "error";}?>">
+            	<div class="controls">
+				<label style="width:200px; float:left">Become A Life Member :</label><input type="checkbox" name="txtem_life_member" id="txtem_life_member" onchange="add_in_total()" style="vertical-align: sub;"/> ($250)
+				
+                </div>
+				</div>
+				</div>
+           </td>
+		   </tr>
+           </table>
+           <div style="width:100%; line-height:20px; margin:20px 0 5px 0px; float:left">
+           		<div style="float:left; width:100%">
+                <b>
+                * Please list and fill all details about each person registering for Convention (Including Registrant) <br />- Calculate the fee based on table above.  
+                </b>
+
+                </div>
+           </div>
+           <div style="width:100%;  float:left;">
+            <table width="93%"  border="1" style="margin-left:3.1%;" >
+				<tr>
+					<?php $err = ''; if(form_error('name[]')){ $err = "color: #B94A48 !important;";}?>
+					<?php $err1 = ''; if(form_error('rel[]')){ $err1 = "color: #B94A48 !important;";}?>
+					<?php $err2 = ''; if(form_error('bod[]')){ $err2 = "color: #B94A48 !important;";}?>
+					
+                	<!--<th style="background-color:#FAFCD9" width="5%">No</th>-->
+                    <th class="title-bor" style="<?php echo $err; ?>" width="24%">Name of Attendees</th>
+                    <th class="title-bor" style="<?php echo $err1; ?>" width="10%">Relationship</th>
+                    <th class="title-bor" style="<?php echo $err2; ?>" width="12%">BOD</th>
+                    <th class="title-bor"  width="7%">Age</th>
+                    <th class="title-bor"  width="15%">Menu Choice<br />T/C</th>
+                    <th class="title-bor"  width="15%">Age Group<br />(A-E)</th>
+                    <th class="title-bor"  width="10%">Fee</th>
+                    
+                  </tr>
+             </table>
+             </div>
+             <div style="width:100%;  float:left;">
+             
+             <div>
+			 <?php $total=0; ?>
+			  <div  class="controls addremove mystyle"  style="height: 25px;">
+			 <?php /*?><div style="width:20px; float:left;"><input type="checkbox" style="float: left; margin-right: 1%;" checked="checked" id="chk_<?php echo $chapter->mm_id; ?>" onclick="is_check(this.value);" name="chkbx<?php echo $chapter->mm_id; ?>" value="<?php echo $chapter->mm_id; ?>" class="hdnids"/>
+			<input type="hidden" value="<?php echo $chapter->mm_id; ?>" name="hdnids[]" class="hdnids"/>
+			</div><?php */?>
+           	
+				<table width="93%" border="1" class="add_rm_before" style="margin-left:3.1%" >
+					<tr>
+                  	<!--<td width="5%" style=" text-align:center" >
+                    <label class="static" id="id[]" style="margin-bottom:0px !important" ><b>1</b></label>
+                    </td>-->
+                    <td width="24%" style="">
+                     <input class="toclear " type="text" id="name[]" name="name[]" value=""  style=" width:99%; margin:0; padding:0;"/>
+                    </td>
+                    <td width="12%" style="">
+                     <input class="toclear guest" type="text" id="rel[]" name="rel[]" value=""  style=" width:99%; margin:0; padding:0;"/>
+                    </td>
+                    <td width="12%" style="">
+                     <input class="toclear bod" onblur="datediff(this.value,this.id);" type="text" id="bod_1" name="bod[]" value="" placeholder="MM/YYYY" style=" width:100%; margin:0; padding:0;"/>
+                     
+                    </td>
+                    <td  width="7%" style="">
+                  <input class="toclear age" onkeyup="ageof()" id="age_1" readonly="readonly" onkeypress="ageof();" onkeyup="ageof();" onchange="ageof();" onmouseout="ageof();" id="age[]"  name="age[]"  type="text" value=""  style=" width:100%; margin:0; padding:0;"/>
+                    
+                    <input type="hidden" id="" value="">
+                    </td>
+                    <td width="15%" style="background-color:#7d7d7d;">
+                    <select class="toclear" id="menu_ch[]" name="menu_ch[]" style=" width:99%; margin:0; padding:0;height:22px;">
+                    <option value="T">T</option>
+                    <option value="C">C</option>
+                    </select>
+                     <!--<input class="toclear" type="text"  id="menu_ch[]" name="menu_ch[]" value="<?php //echo set_value('menu_ch[]'); ?>"  style=" width:99%; margin:0; padding:0;"/>-->
+                    </td>
+                    <td width="15%" style="background-color:#b4b4b4;">
+					<?php
+					$group = '';
+					$amount = '';
+					/*$age = date("Y")-$chapter->mm_birth_year;
+					if($age<$itema->end_age)
+					{
+						$group ='A';
+						if(strtotime(date('Y-m-d'))>strtotime($item->final_date))
+						{
+							$amount = $itema->fees_st_mm_late_fee;
+						}
+						else
+						{
+							$amount = $itema->fees_st_mm_fee;
+						}
+					}
+					else if($age>=$itemb->start_age && $age<=$itemb->end_age)
+					{
+						$group = 'B';
+						if(strtotime(date('Y-m-d'))>strtotime($item->final_date))
+						{
+							$amount = $itemb->fees_st_mm_late_fee;
+						}
+						else
+						{
+							$amount = $itemb->fees_st_mm_fee;
+						}
+					}
+					else if($age>=$itemc->start_age)
+					{
+						$group = 'C';
+						if(strtotime(date('Y-m-d'))>strtotime($item->final_date))
+						{
+							$amount = $itemc->fees_st_mm_late_fee;
+						}
+						else
+						{
+							$amount = $itemc->fees_st_mm_fee;
+						}
+					}*/
+					$total +=$amount;
+					?>
+                     <input class="toclear fees"  id="age_grp[]" readonly="" name="age_grp[]"  type="text" value="<?php //echo $group; ?>"  style=" width:99%; margin:0; padding:0;"/>
+                    </td>
+                    <td width="10%" style="background-color:#b4b4b4;">
+					<input class="toclear fees"  id="fees[]" readonly="" name="fees[]" type="text" value="<?php //echo $amount; ?>"  style="width: 99%; margin: 0px; padding: 0px; text-align: right;"/>
+                    </td>
+                   
+                     </tr>   
+                  </table>
+				 
+				  <a title="Add New Field" onclick="addNewField(this);" class="anchor_add_remove">
+						<i class="icon-edit" style="background-position:0 -96px; background-image:url('<?php echo base_url();?>images/glyphicons-halflings.png')"></i>
+					</a>
+					<a title="Remove This Field" onclick="removeThisField(this);" class="anchor_add_remove" style="display:none;">
+						<i class="icon-minus-sign" style="background-image:url('<?php echo base_url();?>images/glyphicons-halflings.png')"></i>
+					</a>
+				  
+                  </div>
+             
+             
+                 
+			 	<table width="93%" border="1" class="add_rm_before" style="margin-left:3.1%;">
+                      <tr>
+                          <td width="82%" style="color:#469AE9; border:solid #000 1px;"><b>Total</b></td>
+                          
+                          <td width="9%" style="text-align:center;">
+                          <input type="text" id="fees_total" readonly="readonly" name="fees_total" value="" style="width: 99%; margin: 0px; padding: 0px; text-align: right;"/>
+                          </td>                  
+                      </tr>    
+                </table>	
+                  </div>
+				  	
+				  <div class="space10px"></div>
+				  <!--<input type="button" value="Add new" class="btn primary" style="margin-left:3%;" id="addnew" onclick="displaythis();" />-->
+             </div>
+             <!-------------------------update-monita20130927------------------------------>
+             <div style="clear:both"></div>
+             <div style="width:100%; float:left;"><img src="<?php  echo base_url().'images/captcha/'.$captcha['image']; ?>" style="margin-right: 10px;">Confirm Captcha <input size="40" type="text" name="confirmCaptcha" id="confirmCaptcha" value="" />
+             
+             </div>
+             <div class="space20px "></div>
+             <div class="<?php if(form_error('confirmCaptcha')){ echo "error";}?>">
+             </div>
+     
+             
+  
+               <?php if(form_error('confirmCaptcha')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline"><?php echo form_error('confirmCaptcha'); ?></span>
+                </div>
+            </div>
+			<?php } ?>
+             <div style="width:100%; float:left;">
+             	<div class="pay_type" id="pay_type" style="">
+                     <input type="radio" name="payment" id="check" value="by_check">pay by check
+                     <input style="margin-left:20px;" checked="checked" type="radio" id="paypal" name="payment" value="by_paypal">pay by paypal
+                </div>
+                <div style="float:left; width:100%; display:none;" class="by_check" id="by_check">
+                </div>
+                <div style="float:left; width:100%; display:none;" class="by_paypal" id="by_paypal">
+                	<?php //$urlpaypal = "https://www.sandbox.paypal.com/cgi-bin/webscr"; ?>
+                	<!--<form method="post" name="frmPayPal" id="frmPayPal" action="<?=$urlpaypal ?>">
+						
+                        
+                        
+                        <input type="hidden" name="cmd" value="_xclick">
+                        <input type="hidden" name="business" value="job_parth-facilitator@yahoo.com">
+                        <input type="hidden" name="item_name" value="Item Name">
+                        <input type="hidden" name="tx" value="TransactionID"> 
+                        <input type="hidden" name="rm" value="2">
+                        <input type="hidden" name="return" value="<?php echo current_url(); ?>">
+                        <input type="hidden" name="currency_code" value="USD">
+                        <input type="hidden" name="amount" value="1.00">
+                        <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+                        </form>-->
+                        
+                    
+                </div>
+             
+             </div>
+			 
+             <div class="space20px"></div> 
+             <?php 
+			 /*
+			 for($m=0;$m<=$total_name;$m++)
+			 {
+			 if(form_error('rel[]') || form_error('age['.$m.']') || form_error('age_grp[]') || form_error('fees[]')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline">All fileds are required.</span>
+                </div>
+            </div>
+			<?php } }?>
+			<?php if(form_error('txtzipcode')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline"><?php echo form_error('txtzipcode'); ?></span>
+                </div>
+            </div>
+			<?php } ?>
+           <?php if(form_error('txtem_con_name')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline"><?php echo form_error('txtem_con_name'); ?></span>
+                </div>
+            </div>
+			<?php } ?>
+            <?php if(form_error('txtem_con_number')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline"><?php echo form_error('txtem_con_number'); ?></span>
+                </div>
+            </div>
+			<?php } ?>
+            
+           <?php if(form_error('name[]')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline"><?php echo form_error('name[]'); ?></span>
+                </div>
+            </div>
+			<?php } ?>
+            <?php if(form_error('txtemail')) { ?>
+			 <div class="control-group error">
+            	<div class="controls">
+                    <span class="help-inline"><?php echo form_error('txtemail'); ?></span>
+                </div>
+            </div>
+			<?php } */?>
+             
+             <div class="space20px"></div>  
+             <div class="space20px"></div>  
+  			 <!-------------------------update-monita20130927------------------------------>
+            <?php date_default_timezone_set("Asia/Kolkata"); ?>    
+            <input type="hidden" id="" name="mm_id" value="<?php //echo $chapter->mm_id; ?>">
+            <input type="hidden" id="" name="fees_created_date" value="<?php echo date("Y-m-d H:i:s"); ?>">
+            <input type="hidden" id="" name="fees_created_by" value="<?php //echo $chapter->mm_fname;?>">
+			
+			<input type="hidden" id="groupaend" value="<?php echo $itema->end_age; ?>"/>
+			<input type="hidden" id="groupbstart" value="<?php echo $itemb->start_age; ?>"/>
+			<input type="hidden" id="groupbend" value="<?php echo $itemb->end_age; ?>"/>
+			<input type="hidden" id="groupcend" value="<?php echo $itemc->start_age; ?>"/>
+			
+			<input type="hidden" id="childfeemem" value="<?php echo $itema->fees_st_mm_fee; ?>"/>
+			<input type="hidden" id="childfeenonmem" value="<?php echo $itema->fees_st_non_mm_fee; ?>"/>
+			<input type="hidden" id="childfeememlate" value="<?php echo $itema->fees_st_mm_late_fee; ?>"/>
+			<input type="hidden" id="childfeenonmemlate" value="<?php echo $itema->fees_st_non_mm_late_fee; ?>"/>
+			
+			<input type="hidden" id="youngfeemem" value="<?php echo $itemb->fees_st_mm_fee; ?>"/>
+			<input type="hidden" id="youngfeenonmem" value="<?php echo $itemb->fees_st_non_mm_fee; ?>"/>
+			<input type="hidden" id="youngfeememlate" value="<?php echo $itemb->fees_st_mm_late_fee; ?>"/>
+			<input type="hidden" id="youngfeenonmemlate" value="<?php echo $itemb->fees_st_non_mm_late_fee; ?>"/>
+			
+			<input type="hidden" id="oldfeemem" value="<?php echo $itemc->fees_st_mm_fee; ?>"/>
+			<input type="hidden" id="oldfeenonmem" value="<?php echo $itemc->fees_st_non_mm_fee; ?>"/>
+			<input type="hidden" id="oldfeememlate" value="<?php echo $itemc->fees_st_mm_late_fee; ?>"/>
+			<input type="hidden" id="oldfeenonmemlate" value="<?php echo $itemc->fees_st_non_mm_late_fee; ?>"/>
+			
+			<input type="hidden" id="finaldate" value="<?php echo strtotime($item->final_date); ?>"/>
+			<input type="hidden" id="currentdate" value="<?php echo strtotime(date('Y-m-d')); ?>"/>
+			<input type="hidden" id="fees_st_id" name="fees_st_id" value="<?php echo $item->fees_st_id; ?>"/>
+			
+            <input type="submit" value="<?php echo $this->lang->line('btn_submit');?>" class="btn" />
+			</form>
+             
+	</td>
+  </tr>
+</table>
+<script>
+$( document ).ready(function() {
+ageof();
+
+});
+</script>
+<script language="javascript">
+function add_in_total()
+{
+	var m = $("#txtem_life_member").prop('checked');
+	if(m == true)
+	{
+		var total = $("#fees_total").val();
+		total = parseInt(total)+250;
+		$("#fees_total").val(total);
+		$("#txtem_life_member").val("1");
+	}
+	if(m == false)
+	{
+		var total = $("#fees_total").val();
+		total = parseInt(total)-250;
+		$("#fees_total").val(total);
+	}
+}
+function submit_check() {
+	if($('#pay_type').css('display') == 'none'){ 
+		$("#pay_type").css('display','block');
+	}
+	else {
+		$( "#myform" ).submit();
+	}
+	
+}
+/*$("#check").click(function(){
+  $("#by_check").css('display','block');
+  $("#by_paypal").css('display','none');
+});
+$("#paypal").click(function(){
+  $("#by_check").css('display','none');
+  $("#by_paypal").css('display','block');
+});*/
+</script>
+<script>
+
+function is_check(to)
+{
+	
+	if(document.getElementById('chk_'+to+'').checked == true)
+	{
+		
+		if(document.getElementById('age_'+to+'').value == "")
+		{
+			
+		var ag = $('#hdnage_'+to+'').val();
+		
+		$('#age_'+to+'').attr("value",ag);
+		
+		}
+		else
+		{
+		var ag = $('#age_'+to+'').val();
+	
+		$('#age_'+to+'').attr("value",ag);
+		
+		}
+		ageof();
+	}
+	if(document.getElementById('chk_'+to+'').checked == false)
+	{
+		//var hdn_age = $('#age_'+to+'').val();
+		
+		document.getElementById('age_'+to+'').value = "";
+		ageof();
+		
+	}
+	
+}
+
+</script>
+
+<script language="javascript">
+function ageof()
+{
+	var t=0;
+	
+	//for(var i=0;i<;i++)
+	var age = document.getElementsByName('age[]');
+	var age_grp = document.getElementsByName('age_grp[]');
+	var fees = document.getElementsByName('fees[]');
+	var hdnids = document.getElementsByName('hdnids[]');
+	//alert(age.length);
+	var groupaend = parseInt($("#groupaend").val());
+	var groupbstart = parseInt($("#groupbstart").val());
+	var groupbend = parseInt($("#groupbend").val());
+	var groupcend = parseInt($("#groupcend").val());
+	
+	var childfeemem = parseInt($("#childfeemem").val());
+	var childfeenonmem = parseInt($("#childfeenonmem").val());
+	var childfeememlate = parseInt($("#childfeememlate").val());
+	var childfeenonmemlate = parseInt($("#childfeenonmemlate").val());
+	
+	var youngfeemem = parseInt($("#youngfeemem").val());
+	var youngfeenonmem = parseInt($("#youngfeenonmem").val());
+	var youngfeememlate = parseInt($("#youngfeememlate").val());
+	var youngfeenonmemlate = parseInt($("#youngfeenonmemlate").val());
+	
+	var oldfeemem = parseInt($("#oldfeemem").val());
+	var oldfeenonmem = parseInt($("#oldfeenonmem").val());
+	var oldfeememlate = parseInt($("#oldfeememlate").val());
+	var oldfeenonmemlate = parseInt($("#oldfeenonmemlate").val());
+	
+	var finaldate = parseInt($("#finaldate").val());
+	var currentdate = parseInt($("#currentdate").val());
+	
+	var ln = fees.length;
+	for (var i = 0, l = ln; i < l; i++) 
+	{
+		if(age[i].value < groupaend)
+		{
+			age_grp[i].value='A';
+			if(hdnids[i]!=undefined)
+			{
+				if(currentdate>finaldate)
+				{
+					fees[i].value = childfeememlate;
+				}
+				else
+				{
+					fees[i].value = childfeemem;
+				}
+			}
+			else
+			{
+				if(currentdate>finaldate)
+				{
+					fees[i].value = childfeenonmemlate;
+				}
+				else
+				{
+					fees[i].value = childfeenonmem;
+				}
+			}
+			
+			
+			
+		}
+		if(age[i].value >= groupbstart &&  age[i].value <= groupbend)
+		{
+			age_grp[i].value='B';
+			if(hdnids[i]!=undefined)
+			{
+				if(currentdate>finaldate)
+				{
+					fees[i].value = youngfeememlate;
+				}
+				else
+				{
+					fees[i].value = youngfeemem;
+				}
+			}
+			else
+			{
+				if(currentdate>finaldate)
+				{
+					fees[i].value = youngfeenonmemlate;
+				}
+				else
+				{
+					fees[i].value = youngfeenonmem;
+				}
+			}
+		}
+		if(age[i].value >= groupcend)
+		{
+			age_grp[i].value='C';
+			if(hdnids[i]!=undefined)
+			{
+				if(currentdate>finaldate)
+				{
+					fees[i].value = oldfeememlate;
+				}
+				else
+				{
+					fees[i].value = oldfeemem;
+				}
+			}
+			else
+			{
+				if(currentdate>finaldate)
+				{
+					fees[i].value = oldfeenonmemlate;
+				}
+				else
+				{
+					fees[i].value = oldfeenonmem;
+				}
+			}
+			
+		}
+		if(age[i].value == '')
+		{
+			age_grp[i].value='';
+			fees[i].value='';
+			
+		}
+		
+		j=fees[i].value;
+		if(j=='' || j=='Free')
+		{
+		j=0;
+		}
+		else
+		{
+			
+			t=parseInt(t)+parseInt(fees[i].value);
+		}
+	}
+	var m = $("#txtem_life_member").prop('checked');
+	if(m == true)
+	{
+		var total = $("#fees_total").val();
+		t = parseInt(t)+250;
+		//$("#fees_total").val(total);
+		$("#txtem_life_member").val("1");
+	}
+	document.getElementById('fees_total').value=t;
+}
+function removeThisField(item)
+
+{
+
+	if($(".addremove").length==1)
+
+	{
+
+		alert("Minimum 1 field required");
+
+	}
+
+	else
+
+	{
+
+		$(item).parent(".addremove").remove();	
+
+	}
+	ageof();
+
+}
+
+function addNewField(item)
+
+{
+	
+	$(item).parent(".addremove").after($(item).parent(".addremove").clone());
+	var fees = document.getElementsByName('fees[]');
+	var ln = fees.length;
+	
+	//$(item).parent(".addremove").clone();
+  	/*var fees = document.getElementsByName('fees[]');
+	var ln = fees.length;
+	//alert(ln);
+//	$(item).parent(".addremove").next(".addremove").children(".toclear").val("");
+    /*$(item).parent(".addremove").next(".addremove").find(".static").html('<b>'+ln+'</b>');*/
+	$(item).parent(".addremove").next(".addremove").find(".toclear").val("");
+	//$(item).parent(".addremove").next(".addremove").find("table").addClass("add_rm");
+	//$(item).parent(".addremove").next(".addremove").find("table").removeClass("add_rm_before");
+	$(item).parent(".addremove").next(".addremove").find(".toclear").removeAttr('disabled');
+	$(item).parent(".addremove").next(".addremove").find(".toclear").removeAttr('readonly');
+	$(item).parent(".addremove").next(".addremove").find(".fees").attr('readonly','true');
+	$(item).parent(".addremove").next(".addremove").find(".age").attr('readonly','true');
+	$(item).parent(".addremove").next(".addremove").find(".bod").attr('id','bod_'+ln);
+	$(item).parent(".addremove").next(".addremove").find(".age").attr('id','age_'+ln);
+	//$(item).parent(".addremove").next(".addremove").find(".age").val('Guest');
+	$(item).parent(".addremove").next(".addremove").find(".anchor_add_remove").css('display','block');
+	$(item).parent(".addremove").next(".addremove").find(".hdnids").remove();
+	ageof();
+}	
+function datediff(date,id)
+{
+	
+	var pattern =/^([0-9]{2})\/([0-9]{4})$/;
+	if(!pattern.test(date)) {
+		alert('Please follow MM/YYYY format');
+		return false;
+	}
+	var today = new Date();
+	var yyyy = today.getFullYear();
+	var yy = date.split("/");
+	var getyyyy = yy[1];
+	var year = yyyy - getyyyy;
+	
+	var splited_id = id.split("_");
+	$("#age_"+splited_id[1]).val(year);
+	ageof();
+	
+}
+function displaythis()
+{
+	$(".displaythis").css("display",'block');
+}
+</script>
+<script type="text/javascript">
+
+$('#mm_state_id').change(function() {
+
+
+
+	$('#mm_state_id_loading').show();
+
+
+
+	$.ajax({
+
+	  url: BASE_URI+'2015_texas/convention/get_city/'+$('#mm_state_id').val(),
+
+	  success: function(data) {
+		
+		$('#mm_city_id').html(data);
+
+		$('#mm_state_id_loading').hide();
+
+	  }
+
+	});
+
+});
+
+</script>
+   

@@ -1,0 +1,16 @@
+
+ 
+
+<div class="container"  style="width:auto; float:left; margin-top:10px; margin-left:242px;">
+
+		    <form action="<?php echo base_url($this->config->item('convention_texas_folder_with_slash').'convention/search') ?>" method="post">
+           		 
+				
+            <input type="text" id="" style="margin-top:8px;" name="search_email" placeholder="search by email" value="">
+			
+            <input class="btn" type="submit" style="margin-top:-3px;" id="" value="search">
+        
+          </form>    
+
+</div>
+

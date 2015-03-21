@@ -1,0 +1,1 @@
+[25-Jan-2015 10:09:51 America/Denver] PHP Fatal error:  Call to undefined method Dbheader::random() in /home/spcsorg/public_html/spcsusa/application/controllers/random.php on line 26

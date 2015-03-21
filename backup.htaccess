@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteBase /
+RewriteCond $1 !^(index\.php|images|excel_files|sitemap\.xml|install|js|css|covers-images|widget|modal|src|robots\.txt)
+RewriteRule ^(.*)$ spcsusa/$1 [L]

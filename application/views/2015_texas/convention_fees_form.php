@@ -1,0 +1,36 @@
+<?php 
+	$data['item'] = $this->dbconvention_registration->get_fees_st_detail_by_id();
+	if($data['item'])
+	{
+		$id = $data['item']->fees_st_id;
+		
+		$data['get_relationship'] = $this->dbconvention_registration->get_relationship($user_id);
+		if(!$data['get_relationship'])
+		{
+			$userinfo = $this->dbconvention_registration->get_chapter_from_mm_id($user_id);
+			$data['get_relationship'] = $this->dbconvention_registration->get_relationship_sub($userinfo->mm_family_id,$user_id);
+		}
+		$data['itema'] = $this->dbconvention_registration->get_fees_group_detail_by_id($data['item']->fees_st_id,'A');
+		$data['itemb'] = $this->dbconvention_registration->get_fees_group_detail_by_id($data['item']->fees_st_id,'B');
+		$data['itemc'] = $this->dbconvention_registration->get_fees_group_detail_by_id($data['item']->fees_st_id,'C');
+	    $this->load->view($this->config->item('convention_texas_folder').'convention_fees_view',$data);
+		$data['reg_status']=$this->dbconvention_registration->get_user_status();
+        
+        
+		/*if($data['reg_status']>0)
+		{
+			$data['query1'] = $this->dbconvention_registration->get_page1();
+			$data['query'] = $this->dbconvention_registration->get_page($data['query1']->fm_id);
+			$this->load->view($this->config->item('convention_texas_folder').'convention_fees_edit',$data);
+		}
+		else
+		{*/
+			$this->load->view($this->config->item('convention_texas_folder').'convention_fees_add',$data);
+		//}
+	}
+	else
+	{ ?>
+		<p style="margin-top:30px;">Data not found</p>
+	<?php }
+	    
+?>

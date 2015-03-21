@@ -1,0 +1,1083 @@
+<?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class Form extends CI_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->helper(array('form', 'html','string'));
+		$this->load->library('form_validation');
+		$this->load->library('session');
+		$this->load->helper('text');
+		$login = $this->session->userdata('username');
+		
+		$this->load->model('admincp_convention_texas/dbform');
+		$this->load->model('admincp_convention_texas/dbadminheader');
+		$this->load->model('admincp_convention_texas/dbsettings');
+		if($login=='')
+		{
+			redirect(base_url().'admincp_convention_texas/login');
+		}
+		/*edit*/
+		if($this->session->userdata('get_admin_id')=='2' && $this->session->userdata('status')!='1')
+		{
+			redirect(base_url().'unathorised');
+		}
+		/*edit*/
+	}
+	public function index()
+	{
+	    
+		$this->view();
+	}
+	public function edit($id)
+	{
+		$data['query'] = $this->dbform->get_page($id);
+		$data['query1'] = $this->dbform->get_page1($id);
+		
+			$this->form_validation->set_rules('name[]', 'name', 'required');
+		$this->form_validation->set_rules('rel[]', 'rel', 'required');
+		$this->form_validation->set_rules('age[]', 'age', 'required');
+		$this->form_validation->set_rules('menu_ch[]', 'menu_ch', 'required');
+		$this->form_validation->set_rules('age_grp[]', 'age_grp', 'required');
+		$this->form_validation->set_rules('fees[]', 'fees', 'required');
+		/*$this->form_validation->set_rules('fees_total', $this->lang->line('fees_total'), 'required');*/
+		$this->form_validation->set_error_delimiters('<span class="form_error_msg">', '</span>');	
+
+		if ($this->form_validation->run() == FALSE)
+		{
+
+		}
+		else
+		{
+				$name=$this->input->post('name');
+				$rel=$this->input->post('rel');
+				$age=$this->input->post('age');
+				$menu_ch=$this->input->post('menu_ch');
+				$age_grp=$this->input->post('age_grp');
+				$fees=$this->input->post('fees');
+				$fmg_id=$this->input->post('id');
+				$hdnids=$this->input->post('hdnids');
+				$payment_status = $this->input->post('payment_status_check');
+				
+				$p_status = 0;
+				if($payment_status == "on")
+				{
+					$p_status = 1;
+				}
+				else
+				{
+					$p_status = 0;
+				}
+				
+				$this->dbform->delete_fmg($id);
+				
+				$j = 0;	
+			$total = 0;
+			for($j=0;$j<sizeof($hdnids);$j++)
+			{
+				$data=array(
+				'fm_id'=>$id,
+				'fm_rel_mm_id'=>$hdnids[$j],
+				'fmg_att_name'=>$name[$j],
+				'fmg_mm_rel'=>$rel[$j],
+				'fmg_mm_age'=>$age[$j],
+				'fmg_menu_choice'=>$menu_ch[$j],
+				'fmg_age_grp'=>$age_grp[$j],
+				'fmg_fees'=>$fees[$j],
+				'status'=>1
+				);
+				$result=$this->dbform->insert_fmg($data);
+				$total += $fees[$j];
+			}
+			for($i=$j;$i<sizeof($name);$i++)
+			{ 
+				$data=array(
+				'fm_id'=>$id,
+				'fm_rel_mm_id'=>0,
+				'fmg_att_name'=>$name[$i],
+				'fmg_mm_rel'=>$rel[$i],
+				'fmg_mm_age'=>$age[$i],
+				'fmg_menu_choice'=>$menu_ch[$i],
+				'fmg_age_grp'=>$age_grp[$i],
+				'fmg_fees'=>$fees[$i],
+				'status'=>1
+				);
+				$result=$this->dbform->insert_fmg($data);
+				$total += $fees[$i];
+			}
+				/*for($i=0;$i<sizeof($name);$i++)
+				{ 
+					$data=array(
+					'fm_id'=>$id,
+					'fmg_att_name'=>$name[$i],
+					'fmg_mm_rel'=>$rel[$i],
+					'fmg_mm_age'=>$age[$i],
+					'fmg_menu_choice'=>$menu_ch[$i],
+					'fmg_age_grp'=>$age_grp[$i],
+					'fmg_fees'=>$fees[$i]
+					);
+					$result=$this->dbform->insert_fmg($data);
+				}
+				*/
+
+			$data=array(
+			'fm_modified_date'=>$this->input->post('fees_created_date'),
+			'fm_modified_by'=>$this->input->post('fees_created_by'),
+			'fm_total_fee'=>$total,
+			'payment_status'=>$p_status
+			);
+			$result=$this->dbform->edit($data,$id);
+
+				$this->session->set_flashdata('message_type', 'success');
+
+				$this->session->set_flashdata('status_', $this->lang->line('misc_success_updated'));
+
+				
+
+				redirect(base_url().'admincp_convention_texas/form');
+
+		}
+
+	
+
+	
+
+		$data['title']=$this->lang->line('text_edit_page');
+
+		$this->load->view('admincp_convention_texas/form/edit',$data);
+
+	}
+
+	
+
+
+	
+
+	public function add()
+	{
+		$this->form_validation->set_rules('name[]', 'name', 'required');
+		$this->form_validation->set_rules('rel[]', 'rel', 'required');
+		$this->form_validation->set_rules('age[]', 'age', 'required');
+		$this->form_validation->set_rules('menu_ch[]', 'menu_ch', 'required');
+		$this->form_validation->set_rules('age_grp[]', 'age_grp', 'required');
+		$this->form_validation->set_rules('fees[]', 'fees', 'required');
+		/*$this->form_validation->set_rules('fees_total', $this->lang->line('fees_total'), 'required');*/
+		$this->form_validation->set_error_delimiters('<span class="form_error_msg">', '</span>');	
+		if ($this->form_validation->run() == FALSE)
+		{
+
+		}
+		else
+		{
+			$name=$this->input->post('name');
+			$rel=$this->input->post('rel');
+			$age=$this->input->post('age');
+			$menu_ch=$this->input->post('menu_ch');
+			$age_grp=$this->input->post('age_grp');
+			$fees=$this->input->post('fees');
+			/*var_dump($name);
+			exit;*/
+			$data=array(
+				'mm_id'=>$this->input->post('mm_id'),
+				'fm_created_date'=>$this->input->post('fees_created_date'),
+				'fm_created_by'=>$this->input->post('fees_created_by')
+				);
+				$result=$this->dbform->insert($data);
+				
+				$inserted_id = $this->db->insert_id();
+				
+			for($i=0;$i<sizeof($name);$i++)
+			{ 
+				$data=array(
+				'fm_id'=>$inserted_id,
+				'fmg_att_name'=>$name[$i],
+				'fmg_mm_rel'=>$rel[$i],
+				'fmg_mm_age'=>$age[$i],
+				'fmg_menu_choice'=>$menu_ch[$i],
+				'fmg_age_grp'=>$age_grp[$i],
+				'fmg_fees'=>$fees[$i]
+				);
+				$result=$this->dbform->insert_fmg($data);
+			}
+			$this->session->set_flashdata('message_type', 'success');
+			$this->session->set_flashdata('status_', $this->lang->line('misc_success_inserted'));
+			redirect(base_url().'admincp_convention_texas/form');
+		}
+		$data['title']=$this->lang->line('menu_text_add_page');
+		$this->load->view('admincp_convention_texas/form/add',$data);
+	}
+	/*public function view1()
+	{
+		$num_rec=$this->dbform->count_pages();
+		$this->load->library('pagination');
+
+		
+
+		$config['base_url'] = base_url().'admincp_convention_texas/form/view/';
+
+		$config['total_rows'] = $num_rec;
+
+		$config['per_page'] = 20;
+
+		$config['uri_segment'] = 4;
+
+		$config['full_tag_open'] = '<div align="center" class="pagination"><ul>';
+
+		$config['full_tag_close'] = '</ul></div>';
+
+		
+
+		$config['first_link'] = 'First';
+
+		$config['first_tag_open'] = '<li>';
+
+		$config['first_tag_close']  = '</li>';
+
+		
+
+		$config['last_link'] = 'Last';
+
+		$config['last_tag_open'] = '<li>';
+
+		$config['last_tag_close'] = '</li>';
+
+		
+
+		$config['next_link'] = 'Next';
+
+		$config['next_tag_open'] = '<li>';
+
+		$config['next_tag_close'] = '</li>';
+
+		
+
+		$config['prev_link'] = 'Prev';
+
+		$config['prev_tag_open'] = '<li>';
+
+		$config['prev_tag_close']  = '</li>';
+
+		
+
+		$config['cur_tag_open'] = '<li class="current">';
+
+		$config['cur_tag_close'] = '</li>';
+
+		
+
+		$config['num_tag_open'] = '<li>';
+
+		$config['num_tag_close'] = '</li>';
+
+
+
+		if ($this->uri->segment(4) == "")
+
+		{
+
+			$segment  = 0;
+
+		}
+
+		else
+
+		{
+
+			$segment = $this->uri->segment(4);	
+
+		}
+
+		
+
+		$data['query'] = $this->dbform->get_all_pages($config['per_page'],$segment);
+		
+		
+
+		$this->pagination->initialize($config);
+
+		
+
+		$data['title']=$this->lang->line('menu_text_manage_pages');
+
+		$this->load->view('admincp_convention_texas/form/view',$data);
+
+		
+
+	}*/
+	//added by ketan 201309191100
+	public function view()
+	{
+		if($this->uri->segment(4))
+		{
+			$search_key = $this->uri->segment(4);
+			//$mm_type = $this->uri->segment(5);
+		}
+		else
+		{
+			$search_key = 0;
+			//$mm_type = 0;
+		}
+		
+		if(isset($_POST['search']))
+		{
+			$search_key = $_POST['search'];
+			$this->session->set_userdata('search',$search_key);
+		}
+		if($search_key == '0')
+		{
+			$search_key = "";
+			$num_rec=$this->dbform->count_reg_form($search_key);
+		}
+		else
+		{
+			$num_rec=$this->dbform->count_reg_form($search_key);
+		}
+		
+		
+		
+		$this->load->library('pagination');
+
+		$data['tot_rec'] = $num_rec;
+		
+		
+		if($search_key == "")
+		{
+			$search_key = 0;
+			$config['base_url'] = base_url().'admincp_convention_texas/form/view/'.$search_key.'/';
+		}
+		else
+		{
+			$config['base_url'] = base_url().'admincp_convention_texas/form/view/'.$search_key.'/';
+		}
+		
+		
+		
+
+		$config['total_rows'] = $num_rec;
+
+		$config['per_page'] = 20;
+
+		$config['uri_segment'] = 5;
+
+		$config['full_tag_open'] = '<div align="center" class="pagination"><ul>';
+
+		$config['full_tag_close'] = '</ul></div>';
+
+		
+
+		$config['first_link'] = 'First';
+
+		$config['first_tag_open'] = '<li>';
+
+		$config['first_tag_close']  = '</li>';
+
+		
+
+		$config['last_link'] = 'Last';
+
+		$config['last_tag_open'] = '<li>';
+
+		$config['last_tag_close'] = '</li>';
+
+		
+
+		$config['next_link'] = 'Next';
+
+		$config['next_tag_open'] = '<li>';
+
+		$config['next_tag_close'] = '</li>';
+
+		
+
+		$config['prev_link'] = 'Prev';
+
+		$config['prev_tag_open'] = '<li>';
+
+		$config['prev_tag_close']  = '</li>';
+
+		
+
+		$config['cur_tag_open'] = '<li class="active"><a>';
+
+		$config['cur_tag_close'] = '</a></li>';
+
+		
+
+		$config['num_tag_open'] = '<li>';
+
+		$config['num_tag_close'] = '</li>';
+
+
+
+		if ($this->uri->segment(5) == "")
+
+		{
+
+			$segment  = 0;
+
+		}
+
+		else
+
+		{
+
+			$segment = $this->uri->segment(5);	
+
+		}
+
+		
+		if($search_key == '0')
+		{
+			$search_key = "";
+			$data['query'] = $this->dbform->get_all_reg_form($search_key,$config['per_page'],$segment);
+		}
+		else
+		{
+			$data['query'] = $this->dbform->get_all_reg_form($search_key,$config['per_page'],$segment);
+		}
+
+		
+		
+		//$data['query'] = $this->dbprogram->get_all_program($search_key,$config['per_page'],$segment);
+
+		
+
+		$this->pagination->initialize($config);
+
+		
+
+		$data['title']="Manage registration form";
+
+		$this->load->view('admincp_convention_texas/form/view',$data);
+
+		
+
+	}	
+	function form_export_to_excel()
+	{
+		$search_key = $this->session->userdata('search');
+		
+		
+		
+			$num_rec=$this->dbform->count_reg_form_export_to_excel($search_key);
+		
+			$reg_deatails = $this->dbform->get_all_reg_form_export_to_excel($search_key);
+			
+			$filename = 'Registration_form_list_'.date('Y-m-d').'_'.time().'.xls';
+			$heading = 'Registration form list';
+			$countform = $num_rec.' Registered members';
+		
+		$content = '';
+		$num = 0;
+		$number=1;
+		$filedArr =array('No.','Name of Attendees','Relationship','Age','Menu Choice T/C','Age Group (A-E)','Fee','Payment Method','Payment Status');		
+		$content=array();
+		
+		foreach($reg_deatails as $all_form)
+		{
+			
+			  
+
+			  // $user_ch = $this->dbuser->get_ch_from_state($all_users->mm_state_id);
+
+			   
+
+			  // if($user_ch)
+
+			   //{
+
+			  // 	$get_user_chapter = $this->dbadminheader->get_chapter($user_ch->ch_id);
+
+			   //}
+			   
+			//$member = $this->dbform->get_member_name($all_form->mm_id); 
+			$all_details = $this->dbform->get_page($all_form->fm_id);
+			$temp=0;
+			foreach($all_details as $all_detail)
+			{
+				if($temp==0)
+				{
+					$content[$num]['No.'] = $number;
+					$content[$num]['Name of Attendees'] = $all_detail->fmg_att_name;
+					$content[$num]['Relationship'] = $all_detail->fmg_mm_rel;
+									
+					//date("Y")-$member->mm_birth_year;
+					$content[$num]['Age'] = $all_detail->fmg_mm_age;
+					$content[$num]['Menu Choice'] = strtoupper($all_detail->fmg_menu_choice);
+					$content[$num]['Age Group'] = strtoupper($all_detail->fmg_age_grp);
+					$content[$num]['Fee'] = '$'.$all_detail->fmg_fees;
+					if($all_detail->payment_type == "by_check") $p_type = "CHECK"; else $p_type = "PAYPAL";
+					if($all_detail->payment_status == 0)
+					$p_status = "UNPAID";
+					else
+					$p_status = "PAID";
+					$content[$num]['Payment Method'] = $p_type;
+					$content[$num]['Payment Status'] = $p_status;
+				}
+				else
+				{
+					$content[$num]['No.'] = '';
+					$content[$num]['Name of Attendees'] = $all_detail->fmg_att_name;
+					$content[$num]['Relationship'] = $all_detail->fmg_mm_rel;
+									
+					//date("Y")-$member->mm_birth_year;
+					$content[$num]['Age'] = $all_detail->fmg_mm_age;
+					$content[$num]['Menu Choice'] = strtoupper($all_detail->fmg_menu_choice);
+					$content[$num]['Age Group'] = strtoupper($all_detail->fmg_age_grp);
+					$content[$num]['Fee'] = '$'.$all_detail->fmg_fees;
+					if($all_detail->payment_type == "by_check") $p_type = "CHECK"; else $p_type = "PAYPAL";
+					if($all_detail->payment_status == 0)
+					$p_status = "UNPAID";
+					else
+					$p_status = "PAID";
+					$content[$num]['Payment Method'] = $p_type;
+					$content[$num]['Payment Status'] = $p_status;
+				}
+				$num++;
+				$temp++;
+			}
+			
+			$content[$num]['No.'] = '';
+			$content[$num]['Name of Attendees'] = '';
+			$content[$num]['Relationship'] = '';
+			$content[$num]['Age'] = '';
+			$content[$num]['Menu Choice'] ='';
+			$content[$num]['Age Group'] = '';
+			$content[$num]['Fee'] = '';
+			$content[$num]['Payment Method'] = '';
+			$content[$num]['Payment Status'] = '';
+			
+		$num++;
+		$number++;
+			
+		}
+		
+		$this->ExportToCSV($content,$filename,$filedArr,$countform,$heading);
+		
+		
+	}
+	function ExportToCSV($content,$filename = '', $filedArr = '',$countprograms,$heading)
+	{
+		
+	//$filename = __DIR__.'\\excelfile\\'.$filename;
+	//$filename =''.$filename;
+	$filename =$this->config->item('rootfolderpath').'excel_files/'.$filename;
+	//date_default_timezone_set("Asia/Kolkata");
+	$string= "";
+	
+	$string.= "<table id='ReportTable' cellpadding='2' cellspacing='2' border='1' bordercolor='#d0d7e5'>";
+		$fp = fopen($filename, 'w');
+		//$fp = fopen('registration_form/'.$filename, 'w');
+				
+				//$string.="<tr><td colspan='6' align='center'>";
+				//$string.="<font size=5><b>$event_name</b></font>";
+				//$string.="</td></tr>";
+				$string.="<tr><td colspan='7' align='left'>";
+				$string.="<font size=4><b>$heading</b></font>";
+				$string.="</td><td colspan='2'>";
+				$string.="<font size=4><b>".date("Y-m-d H:i:s")."</b></font>";
+				$string.="</td></tr>";
+				$string.="<tr><td colspan='9' align='left'>";
+				$string.="<font size=4><b>$countprograms</b></font>";
+				$string.="</td></tr>";
+				/*$string.="<tr><td colspan='8' align='left'>";
+				$string.="<font size=4><b><center>CONTACT</center></b></font>";
+				$string.="</td>";
+				$string.="<td colspan='6' align='left'>";
+				$string.="<font size=4><b><center>IN CASE OF EMERGENCY, CONTACT</center></b></font>";
+				$string.="</td>";
+				$string.="<td colspan='6' align='left'>";
+				$string.="<font size=4><b><center>IF EMERGENCY CONTACT IS NOT AVAILABLE, CONTACT</center></b></font>";
+				$string.="</td>";
+				$string.="<td colspan='5' align='left'>";
+				$string.="<font size=4><b><center>IF EMERGENCY CONTACT IS NOT AVAILABLE, CONTACT</center></b></font>";
+				$string.="</td>";
+				$string.="<td colspan='2' align='left'>";
+				$string.="<font size=4><b><center>Health Insurance Company</center></b></font>";
+				$string.="</td></tr>";
+				$string.= "<tr>";*/
+				$field = array();
+				foreach($filedArr as $filed)
+				{
+					
+					$string.= "<th width='auto' bordercolor='#d0d7e5'>$filed</th>";
+					
+					
+					
+				}
+				
+				
+				$string.= "</tr>";
+				
+				$string.= "<tr>";
+				
+				for($i=0;$i<count($content);$i++)
+				{
+					if($content[$i]['Relationship']=='')
+					{
+						$string.= "<td bgcolor='#fff' colspan='7'></td>";	
+						/*foreach($content[$i] as $line)
+						{
+							$string.= "<td bgcolor='#fff'><center>$line</center></td>";	
+						}*/
+					}
+					else
+					{
+						foreach($content[$i] as $line)
+						{
+							$string.= "<td bgcolor='#fff'><center>$line</center></td>";	
+						}
+					}
+					$string.= "</tr>";
+				}
+				
+				
+			$string.= "</table>";
+			
+			header('Content-Type: application/force-download');  
+		header('Content-disposition: attachment; filename="'.$filename.'"');
+		header("Pragma:");  
+		header("Cache-Control:"); 
+		echo $string;
+		fwrite($fp,$string);	
+			//chmod($filename, 0755);
+
+		//fwrite($fp,$string); 
+			//echo($string);die();
+		//fclose($fp);
+		//header('Content-Type: application/force-download');  
+		//header('Content-type: application/excel');
+		//header('Content-disposition: attachment; filename="'.$filename.'"');
+		//header("Pragma:");  
+		//header("Cache-Control:"); 
+		//echo $string;
+	/*
+	//if($content != '' && (!(empty($content)))  ){
+		$fp = fopen($filename, 'w');
+		//if($filedArr != ''  &&  is_array($filedArr))
+			fputcsv($fp, $filedArr);
+		//else
+		//	echo  'Please  Provide Filed Name  In Array.'; 
+		foreach($content as $line){
+			//$val = implode(",",$line);
+			fputcsv($fp, $line);
+		}
+		fclose($fp);
+		//header('Content-Type: application/force-download');  
+		//header('Content-disposition: attachment; filename="'.$filename.'"');
+		//header("Pragma:");  
+		//header("Cache-Control:");
+		//header('Content-type: application/excel');
+		//header('Content-Disposition: attachment; filename="'.$filename.'"');
+		
+		//readfile($filename);
+		//unlink($filename);
+		*/
+
+	/*}else{
+		echo  'No Content Found ' ;
+	}*/
+	
+	}
+	//update end
+	public function delete($id)
+
+	{
+
+		$fetch_mm_id = $this->dbform->fetch_mm_id($id);
+		$email = $this->dbform->get_chapter_from_fm_id($id);
+		$this->dbform->delete($id,$email->fm_email);
+		//$this->dbform->delete($id);
+		$this->dbform->delete_fmg($id);
+		
+		$this->dbform->delete_program($fetch_mm_id->mm_id);
+		$this->dbform->delete_medical($fetch_mm_id->mm_id);
+		$this->dbform->delete_con_event($fetch_mm_id->mm_id);
+		
+		$this->session->set_flashdata('message_type', 'success');
+		$this->session->set_flashdata('status_', $this->lang->line('misc_success_deleted'));
+		redirect(base_url().'admincp_convention_texas/form/view');
+
+	}
+	function ExportToCSV_edit($content,$filename = '', $filedArr = '',$heading)
+	{
+		//$filename =''.$filename;
+		$filename =$this->config->item('rootfolderpath').'excel_files/'.$filename;
+		date_default_timezone_set("Asia/Kolkata");
+		//$fp = fopen($filename, 'w');
+		$string= "";
+		$string.= "<table width='30%' id='ReportTable' cellpadding='2' cellspacing='2' border='1' bordercolor='#d0d7e5'>";
+		//$fp = fopen('registration_form/'.$filename, 'w');
+		$string.="<tr><td colspan='6' align='left'>";
+		$string.="<font size=4><b>$heading</b></font>";
+		$string.="</td><td colspan='3' align='center'>";
+		$string.="<font size=4><b>".date("Y-m-d H:i:s")."</b></font>";
+		$string.="</td></tr>";
+						
+		$string.= "<tr>";
+		$field = array();
+		//$green = "#DDFFCC";
+		$t=0;
+		foreach($filedArr as $filed)
+		{
+			if($t==6)
+			{
+				$string.= "<th colspan='3'>$filed</th>";
+			}
+			else
+			{
+				$string.= "<th>$filed</th>";
+			}
+			$t++;
+		}
+		$string.= "</tr>";
+		$string.= "<tr>";
+		for($i=0;$i<count($content);$i++)
+		{
+			$t=0;
+			foreach($content[$i] as $line)
+			{
+				if($t==6)
+				{
+					$string.= "<td colspan='3'><center>$line</center></td>";
+				}
+				else
+				{
+					$string.= "<td><center>$line</center></td>";
+				}
+				$t++;
+			}
+			$string.= "</tr>";
+		}
+		$string.= "</table>";
+		
+		$program_deatails = $this->dbform->get_edit_reg_export_to_excel($this->uri->segment(4));
+		$item = $this->dbform->get_fees_st_detail_by_id($program_deatails->fees_st_id);
+		$itema = $this->dbform->get_fees_group_detail_by_id($program_deatails->fees_st_id,'A');
+		$itemb = $this->dbform->get_fees_group_detail_by_id($program_deatails->fees_st_id,'B');
+		$itemc = $this->dbform->get_fees_group_detail_by_id($program_deatails->fees_st_id,'C');
+				
+		//for menu choice
+		$f_menu=$item->first_menu;
+		$s_menu=$item->second_menu;
+		$trad=$item->trad;
+		$cont=$item->cont;
+		$final_date=$item->final_date;
+		
+		if($itema->fees_st_mm_fee==0)
+		{
+			$afees_st_mm_fee="Free";
+		}
+		else
+		{
+			$afees_st_mm_fee=$itema->fees_st_non_mm_fee;
+		}
+		if($itema->fees_st_non_mm_fee==0)
+		{
+			$afees_st_non_mm_fee="Free";
+		}
+		else
+		{
+			$afees_st_non_mm_fee=$itema->fees_st_non_mm_fee;
+		}
+		if($itema->fees_st_mm_late_fee==0)
+		{
+			$afees_st_mm_late_fee="Free";
+		}
+		else
+		{
+			$afees_st_mm_late_fee=$itema->fees_st_mm_late_fee;
+		}
+		if($itema->fees_st_mm_fee==0)
+		{
+			$afees_st_non_mm_late_fee="Free";
+		}
+		else
+		{
+			$afees_st_non_mm_late_fee=$itema->fees_st_non_mm_late_fee;
+		}
+		
+		$bfees_st_mm_fee=$itemb->fees_st_mm_fee;
+		$bfees_st_non_mm_fee=$itemb->fees_st_non_mm_fee;
+		$bfees_st_mm_late_fee=$itemb->fees_st_mm_late_fee;
+		$bfees_st_non_mm_late_fee=$itemb->fees_st_non_mm_late_fee;
+		
+		$cfees_st_mm_fee=$itemc->fees_st_mm_fee;
+		$cfees_st_non_mm_fee=$itemc->fees_st_non_mm_fee;
+		$cfees_st_mm_late_fee=$itemc->fees_st_mm_late_fee;
+		$cfees_st_non_mm_late_fee=$itemc->fees_st_non_mm_late_fee;
+		
+		$astart=$itema->start_age;
+		$aend=$itema->end_age;
+		$bstart=$itemb->start_age;
+		$bend=$itemb->end_age;
+		$cstart=$itemc->start_age;
+		$cend=$itemc->end_age;
+		
+		$stroffs='';
+		$stroffs.= "<table  border='1' cellspacing='0' cellpadding='5' bgcolor='#FFCC99' width='30%'>"; 
+		$stroffs.= "<tr>";
+		$stroffs.= "<td><center>Menu Choice</center></td>";
+		$stroffs.= "<td colspan='8'><center>Please indicate menu choice T or C for each person registered in this form below<br />";
+		$stroffs.= "Attendee will have a type of wrist-band and access to only his/her chosen menu for all three days of convention</center></td>";
+		$stroffs.= "</tr>";
+		$stroffs.= "<tr>";
+		$stroffs.= "<td><center>$f_menu</center></td>";
+		$stroffs.= "<td colspan='8'><center>$trad</center></td>";
+		$stroffs.= "</tr>";
+		$stroffs.= "<tr>";
+		$stroffs.= "<td><center>$s_menu</center></td>";
+		$stroffs.= "<td colspan='8'><center>$cont</center></td>";
+		$stroffs.= "</tr>";
+		$stroffs.= "</table>";
+		$stroffs.= "<table  border='0' cellspacing='0' cellpadding='5' width='30%'>"; 
+		$stroffs.= "<tr>";
+		$stroffs.= "<td colspan='9'>&nbsp;</td>";
+		$stroffs.= "</tr>";
+		$stroffs.= "</table>";
+		//end menu choice
+		//fees structure
+		$stroffeesstruct='';			
+		$stroffeesstruct.="<table width='30%'  border='1' cellspacing='0' cellpadding='5' bgcolor='#CCEBFF'>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td rowspan='3'><center>Age Group</center></td>";
+		$stroffeesstruct.="<td colspan='8'><center>Fees in US $</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td colspan='4'><center>Post Marked by $final_date</center></td>";
+		$stroffeesstruct.="<td colspan='4'><center>After $final_date</center></td>";
+		$stroffeesstruct.="</tr><tr>";
+		$stroffeesstruct.="<td colspan='2'><center>Member</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>Non-Member</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>Member</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>Non-Member</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td>A-Kids under $aend years old</td>";		
+		$stroffeesstruct.="<td colspan='2'><center>$".$afees_st_mm_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$afees_st_non_mm_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$afees_st_mm_late_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$afees_st_non_mm_late_fee."</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td>";
+		$stroffeesstruct.="B-Kids and Young Adults $bstart-$bend years</td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$bfees_st_mm_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$bfees_st_non_mm_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$bfees_st_mm_late_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$bfees_st_non_mm_late_fee."</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td>";
+		$stroffeesstruct.="C-Adults $cstart years and up</td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$cfees_st_mm_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$cfees_st_non_mm_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$cfees_st_mm_late_fee."</center></td>";
+		$stroffeesstruct.="<td colspan='2'><center>$".$cfees_st_non_mm_late_fee."</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td>";
+		$stroffeesstruct.="D-International Guests</td>";
+		$stroffeesstruct.="<td colspan='8'><center>Treated as member for fee amount</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="<tr>";
+		$stroffeesstruct.="<td>";
+		$stroffeesstruct.="E-Complimentary admission for sponsorship</td>";
+		$stroffeesstruct.="<td colspan='8'><center>Free - Use Age group code E for complimentary admissions received for your sponsorship<br />(Must attach a copy of sponsorship check or receipt of payment to select code E)</center></td>";
+		$stroffeesstruct.="</tr>";
+		$stroffeesstruct.="</table>";
+		$stroffeesstruct.= "<table  border='0' cellspacing='0' cellpadding='5' width='30%'>"; 
+		$stroffeesstruct.= "<tr>";
+		$stroffeesstruct.= "<td colspan='9'>&nbsp;</td>";
+		$stroffeesstruct.= "</tr>";
+		$stroffeesstruct.= "</table>";
+		//end
+		
+		//user details
+		$chapter = $this->dbform->get_chapter_from_fm_id($program_deatails->fm_id);
+		
+		$ch_name = "";//$chapter->ch_name;
+		$mm_address = $chapter->fm_address;
+		$mm_fname = $chapter->fm_fname;
+		$mm_life_id = "";//$chapter->mm_life_id;
+		$mm_lname = $chapter->fm_lname;
+		$mm_hphone = $chapter->fm_phoneh;
+		$mm_cphone = $chapter->fm_phonec;
+		$mm_email = $chapter->fm_email;
+		
+		
+		$get_cities = $this->dbform->cities($chapter->fm_city);
+		$city_name = $get_cities->city_name;
+		$get_state = $this->dbform->state($chapter->fm_state);
+		$state_name = $get_state->state_name;
+		$em_name = $program_deatails->fm_em_con_name;
+		$em_number = $program_deatails->fm_em_con_num;
+		$zipcode = $program_deatails->fm_zipcode;
+		$payment_type = $chapter->payment_type;
+		$life_member = $chapter->fm_life_member;
+		$payment_status = $chapter->payment_status;
+		$str = '';
+		if($life_member == 1)
+		{
+			$str = "YES";
+		}
+		else
+		{
+			$str = "NO";
+		}
+		$strudetail='';
+		$strudetail.="<table border='1' cellpadding='2' cellspacing='0'>";
+		$strudetail.="<tr>";
+	/*	$strudetail.="<td colspan='3'>";
+		$strudetail.="Registration Form :";
+		$strudetail.="</td>";*/
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="SPCS Chapter:  $ch_name";
+		$strudetail.="</td>";
+		$strudetail.="<td colspan='6'>";
+		$strudetail.="Life Member Number :    L M - $mm_life_id";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="Last name : $mm_lname";
+		$strudetail.="</td>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="First Name :  $mm_fname";
+		$strudetail.="</td>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="Address : $mm_address";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="City : $city_name";
+		$strudetail.="</td>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="State : $state_name";
+		$strudetail.="</td>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="Zip Code : $zipcode";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='3'>";
+		$strudetail.="Phone No (H) : $mm_hphone";
+		$strudetail.="</td>";
+		$strudetail.="<td colspan='6'>";
+		$strudetail.="(C) : $mm_cphone";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='9'>";
+		$strudetail.="Email : $mm_email";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='9'>";
+		$strudetail.="Emergency Contact Name(Not Listed Below) :$em_name";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='9'>";
+		$strudetail.="Phone :$em_number";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='9'>";
+		if($payment_type == "by_check") $p_ty = "Check"; else $p_ty = "Paypal"; 
+		$strudetail.="Payment Type : $p_ty";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='9'>";
+		if($payment_status == "0") $p_st = "Unpaid"; else $p_st = "Paid"; 
+		$strudetail.="Payment Type : $p_st";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="<tr>";
+		$strudetail.="<td colspan='9'>";
+		$strudetail.="Life Time Member : $str";
+		$strudetail.="</td>";
+		$strudetail.="</tr>";
+		$strudetail.="</table>";
+		$strudetail.= "<table  border='0' cellspacing='0' cellpadding='5' width='30%'>"; 
+		$strudetail.= "<tr>";
+		$strudetail.= "<td colspan='9'>&nbsp;</td>";
+		$strudetail.= "</tr>";
+		$strudetail.= "</table>";
+		//end
+		
+		//heading
+		$strheader='';
+		$strheader.= "<table  border='0' cellspacing='0' cellpadding='5' width='30%'>"; 
+		$strheader.= "<tr>";
+		$strheader.= "<td colspan='9'>&nbsp;</td>";
+		$strheader.= "</tr>";
+		$strheader.= "<tr>";
+		$strheader.= "<td colspan='9'><font size='4'><b>Register Member: </b></font>".$mm_fname." ".$mm_lname."</td>";
+		$strheader.= "</tr>";
+		$strheader.= "<tr>";
+		$strheader.= "<td colspan='9'>&nbsp;</td>";
+		$strheader.= "</tr>";
+		$strheader.= "</table>";
+		//end
+		
+		//single line
+		$strline='';
+		$strline.= "<table  border='0' cellspacing='0' cellpadding='5' width='30%'>"; 
+		$strline.= "<tr>";
+		$strline.= "<td colspan='9'>&nbsp;</td>";
+		$strline.= "</tr>";
+		$strline.= "<tr>";
+		$strline.= "<td colspan='9'><font size='3'><b>* Please list and fill all details about each person registering for Convention (Including Registrant) - Calculate the fee based on table above. </b></font></td>";
+		$strline.= "</tr>";
+		$strline.= "<tr>";
+		$strline.= "<td colspan='9'>&nbsp;</td>";
+		$strline.= "</tr>";
+		$strline.= "</table>";
+		//end
+		
+		header('Content-Type: application/force-download');  
+		header('Content-disposition: attachment; filename="'.$filename.'"');
+		header("Pragma:");  
+		header("Cache-Control:"); 
+		echo $strheader;
+		//echo $stroffs;
+		//echo $stroffeesstruct;
+		echo $strudetail;
+		//echo $strline;
+		echo $string;
+
+	}
+	function form_edit_export_to_excel()
+	{
+		$program_deatails = $this->dbform->get_edit_reg_export_to_excel($this->uri->segment(4));
+		$filename = 'register_member'.date('Y-m-d').'_'.time().'.xls';
+		$heading = 'Register Member';
+		$content = '';
+		$num=0;
+		$number=1;
+		$filedArr =array('No.','Name of Attendees','Relationship','Age','Menu Choice T/C','Age Group (A-E)','Fee');		
+		$content=array();
+		$all_details = $this->dbform->get_page($program_deatails->fm_id);
+		
+		foreach($all_details as $all_detail)
+		{
+			$content[$num]['No.'] = $number;
+			$content[$num]['Name of Attendees'] = $all_detail->fmg_att_name;
+			$content[$num]['Relationship'] = $all_detail->fmg_mm_rel;
+			
+			$content[$num]['Age'] = $all_detail->fmg_mm_age;
+			$content[$num]['Menu Choice'] = strtoupper($all_detail->fmg_menu_choice);
+			$content[$num]['Age Group'] = strtoupper($all_detail->fmg_age_grp);
+			$content[$num]['Fee'] = '$'.$all_detail->fmg_fees;
+			
+			$num++;
+			$number++;
+		}	
+		$this->ExportToCSV_edit($content,$filename,$filedArr,$heading);
+	}
+}
+?>

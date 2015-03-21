@@ -1,0 +1,394 @@
+/*body{margin:0px; padding:0px; background:#3b0908 url(../../images/youth_milan/backgroung.png) no-repeat center top;}*/
+body{margin:0px; padding:0px; background: url(../../images/youth_milan/back-bg.jpg) repeat-x scroll 0 0 #e9bcbc; font-family:Book Antiqua, Helvetica, sans-serif;}
+
+#wrapper{width:1000px; margin:auto;}
+#header{width:1000px; margin:auto;}
+
+
+
+#midwrap {
+    background: url("../gfx/visual/home-midfield.jpg") repeat-x scroll 50% 0 transparent;
+}
+#container {
+    background: url("../gfx/visual/tab-shadow.png") no-repeat scroll 95% 115px transparent;
+}
+#container #midglow {
+    background: url("../gfx/visual/") no-repeat scroll 0 100% transparent;
+    padding: 0;
+}
+#container section {
+    float: left;
+    padding: 0 0 0 1%;
+    width: 39.5833%;
+}
+#tab-container {
+    height: 380px;
+}
+#tab-container article {
+    padding: 0 25px 0 90px;
+}
+#tab-container .launch_last p {
+    padding: 0 30px 0 0;
+}
+#container aside {
+    float: right;
+    padding: 125px 0 0;
+    width: 53.125%;
+}
+
+aside .tabs li a {
+    background: url("../../images/youth_milan/tab-top-bg.png") no-repeat scroll 50% -147px transparent;
+}
+aside .tabs li a span b {
+    font-size: 0.8em;
+}
+nav ul li {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -190px transparent;
+    width: 120px;
+}
+nav ul li a span {
+    background: url("../gfx/visual/nav-icons.png") no-repeat scroll 0 -15px transparent;
+}
+nav ul .n-services {
+    left: 0;
+}
+nav ul .n-portfolio {
+    left: 120px;
+}
+nav ul .n-team {
+    left: 240px;
+}
+nav ul .n-contact {
+    right: 240px;
+}
+nav ul .n-quote {
+    right: 120px;
+}
+nav ul .n-services a span {
+    background-position: 0 -15px;
+}
+nav ul .n-portfolio a span {
+    background-position: 0 -145px;
+}
+nav ul .n-team a span {
+    background-position: 0 -275px;
+}
+nav ul .n-contact a span {
+    background-position: 0 -405px;
+}
+nav ul .n-quote a span {
+    background-position: 0 -530px;
+}
+nav ul li:hover {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -5px transparent;
+}
+nav ul .n-services:hover span {
+    background-position: -120px -15px;
+}
+nav ul .n-portfolio:hover span {
+    background-position: -120px -145px;
+}
+nav ul .n-team:hover span {
+    background-position: -120px -275px;
+}
+nav ul .n-contact:hover span {
+    background-position: -120px -405px;
+}
+nav ul .n-quote:hover span {
+    background-position: -120px -530px;
+}
+body#serv nav ul .n-services {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -5px transparent;
+}
+body#serv nav ul .n-services span {
+    background-position: -120px -15px;
+}
+body#launch nav ul .n-portfolio {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -5px transparent;
+}
+body#launch nav ul .n-portfolio span {
+    background-position: -120px -145px;
+}
+body#team nav ul .n-team {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -5px transparent;
+}
+body#team nav ul .n-team span {
+    background-position: -120px -275px;
+}
+body#contact nav ul .n-contact {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -5px transparent;
+}
+body#contact nav ul .n-contact span {
+    background-position: -120px -405px;
+}
+body#quote nav ul .n-quote {
+    background: url("../gfx/visual/nav-ribbon.png") no-repeat scroll 50% -5px transparent;
+}
+body#quote nav ul .n-quote span {
+    background-position: -120px -530px;
+}
+#prefooter article {
+    float: left;
+    margin: 0 1.04167%;
+    width: 64.5833%;
+}
+#prefooter aside {
+    float: right;
+    margin: 0 1.04167%;
+    width: 31.25%;
+}
+#foot-nav {
+    float: left;
+    height: 150px;
+    width: 68.75%;
+}
+#foot-nav dl {
+    float: left;
+    margin: 0 1%;
+    width: 31.25%;
+}
+footer {
+    color: #999999;
+    float: right;
+    font-size: 11px;
+    position: relative;
+    width: 30.2083%;
+}
+footer h2 {
+    margin: 0 0 15px;
+}
+footer h2 .cta {
+    background: none repeat scroll 0 0 transparent;
+    border-radius: 0 0 0 0;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    text-transform: none;
+}
+footer h2 .cta:hover {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    padding: 0;
+}
+.brands {
+    background: url("../gfx/visual/brands-bg.png") no-repeat scroll 50% 0 transparent;
+    height: 20px;
+    margin: 0 0 40px;
+    overflow: hidden;
+    width: 100%;
+}
+.brands-item-1 {
+    background: url("../gfx/brands-1.png") no-repeat scroll 50% 15px transparent;
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+
+aside .tabs {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 53.125%;
+}
+aside .tabs li {
+    display: block;
+    float: left;
+    width: 30.1961%;
+}
+aside .tabs li a {
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    height: 147px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-position 0.3s ease-in-out 0s;
+    width: 100%;
+	text-decoration:none;
+}
+aside .tabs li a:hover, aside .tabs li.on a {
+    background-position: 50% 0;
+}
+aside .tabs li a img {
+    margin: 0;
+    padding: 12px 0 0;
+}
+aside .tabs li a span {
+    display: block;
+}
+aside .tabs li a span b {
+    clear: both;
+    display: block;
+}
+
+
+/*-add new css ramnath*/
+
+
+#topheader {
+    float: left;
+    min-height: 100px;
+    width: 100%;
+}
+
+#logo {
+    float: left;
+    width: 34%; padding:20px 0 0 10px;
+}
+
+#my_menu {
+
+    width: 65%;
+	background:url(../images/top-t-shadow.png) no-repeat bottom right; height:133px; float:left;}
+
+
+
+.photogallery {
+    background: url("../../images/youth_milan/opacity-bg.png") repeat scroll 0 0 transparent;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    width: 100%;
+	margin:10px 0 0 0;
+	padding:20px 0;
+}
+
+
+#content-info {
+    background: url("../../images/youth_milan/opacity-bg.png") repeat scroll 0 0 transparent;
+    border-color: #F4F4F4 #252525 #252525;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+	margin:20px 0 0 0; font-size:12px;color:#000;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#content-info a{color:#000; padding:0 10px; text-decoration:none;
+}
+
+#content-info a:hover{color:#fff;}
+
+
+element.style {
+    font-size: 14px;
+}
+.logo-text2 {
+    border-bottom: 3px solid #E8E8E8;
+    color: #fff;
+    float: left;
+    font-size: 18px;
+    width: 97%;
+	margin:0 20px 20px 20px;
+	padding:0 0 10px 0;
+}
+
+
+.txtBlack13Arial {
+    color: #000000;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: 100;
+}
+.err {
+    color: #FF0000;
+    font-family: Arial;
+    font-size: 12px;
+}
+.table-width{width: 700px; border-radius:5px;}
+.input-wi{width:150px;}
+.input-wi-2{width:300px;}
+
+/*error display*/
+.error
+{
+	color: #B94A48; 
+	font-size: 12px;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	clear:both;
+	padding-top:5px;
+	/*float:right;*/
+	
+}
+
+.loginbox
+{
+	background: url("../../images/youth_milan/opacity-bg.png") repeat scroll 0 0 transparent;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    margin:102px 525px 0;
+    padding: 20px 0;
+    width: 30%;
+	clear:both;
+	
+}
+
+.logo-text21 {
+    border-bottom: 3px solid #E8E8E8;
+    color: #fff;
+    float: left;
+    font-size: 18px;
+    width: 97%;
+	margin:0 4px 20px;
+	padding:0 0 10px 0;
+}
+
+/*sucess msg*/
+.sucess
+{
+	color:#468847;
+	font-size: 15px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/*more detail*/
+.more_detail
+{ 
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	margin-left:20px;
+}
+
+.more_detail1
+{
+	color:#fff; 
+	font-family: Arial,Helvetica,sans-serif;
+	margin-left:20px;
+	font-size:20px;
+}
+
+/*added by dharati 201309271230*/
+
+.labeldown
+{
+	padding-top:12px;
+}
+
+.labelup
+{
+	padding-bottom:19px;
+}
+
+.radio1
+{
+	padding-right:30px;
+}
+
+.radio2
+{	
+	margin-right:3px;
+	margin-left:12px;
+}
+
+/*added by dharati 201310011600*/
+.loading {
+    background-image: url("../../images/youth_milan/loading.gif");
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
