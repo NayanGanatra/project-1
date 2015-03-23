@@ -168,7 +168,7 @@ body {
 							<!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_lname; ?></b>-->
 							<input type="text" placeholder="Enter Last Name"
 								style="width: 200px; margin: 0;" id="txtlname" name="lname"
-								value="<?php echo set_value('lname'); ?>" required/>
+								value="<?php echo set_value('lname'); ?>" />
 						</div>
 					</td>
 					<td>
@@ -177,7 +177,7 @@ body {
 							<!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_fname; ?></b>-->
 							<input type="text" placeholder="Enter First Name"
 								style="width: 200px; margin: 0;" id="txtfname" name="fname"
-								value="<?php echo set_value('fname'); ?>" required/>
+								value="<?php echo set_value('fname'); ?>" />
 						</div>
 					</td>
 					<td>
@@ -186,7 +186,7 @@ body {
 							<span class="validation_star">*</span>Address :
 							<!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_address; ?></b>-->
 							<textarea placeholder="Enter Address" style="" id="txtaddress"
-								name="address" required><?php echo set_value('address');?></textarea>
+								name="address"><?php echo set_value('address');?></textarea>
 						</div>
 					</td>
 				</tr>
@@ -198,7 +198,7 @@ body {
 							<span class="validation_star">*</span>Phone No (H) : <input
 								type="text" placeholder="Enter Phone - 1234567890"
 								style="width: 200px; margin: 0;" id="txtphoneh" name="txtphoneh"
-								value="<?php echo set_value('txtphoneh'); ?>" onkeypress="return isNumber(event)" onblur="return check_ph(this.value);" required/>
+								value="<?php echo set_value('txtphoneh'); ?>" />
 						</div>
 					</td>
 					<td>
@@ -207,7 +207,7 @@ body {
 							<span class="validation_star">*</span>Phone No (C) :<br /> <input
 								type="text" placeholder="Enter Phone - 1234567890"
 								style="width: 200px; margin: 0;" id="txtphonec" name="txtphonec"
-								value="<?php echo set_value('txtphonec'); ?>" onkeypress="return isNumber(event)" onblur="return check_ph(this.value);" required/>
+								value="<?php echo set_value('txtphonec'); ?>" />
 						</div>
 					</td>
 					<td>
@@ -221,7 +221,7 @@ body {
 								tabindex="13" class="input-large" name="mm_state_id"
 								id="mm_state_id" style="width: 215px;">
 
-								<option value="" >Please Select</option>
+								<option value="">Please Select</option>
 
                 <?php
 																
@@ -243,9 +243,9 @@ body {
 						<div
 							class="ped_l <?php if(form_error('txtemail')){ echo "error";}?>">
 							<span class="validation_star">*</span>Email :<br /> <input
-								type="email" placeholder="Enter Email"
+								type="text" placeholder="Enter Email"
 								style="width: 200px; margin: 0;" id="txtemail" name="txtemail"
-								value="<?php echo set_value('txtemail'); ?>" required/>
+								value="<?php echo set_value('txtemail'); ?>" />
         <?php //echo form_error('txtemail');?>
                 </div>
 
@@ -255,7 +255,7 @@ body {
 					<td>
 						<div
 							class="ped_l <?php if(form_error('txtemail2')){ echo "error";}?>">
-							Secondary Email : <br /> <input type="email"
+							Secondary Email : <br /> <input type="text"
 								placeholder="Enter Secondary Email"
 								style="width: 200px; margin: 0;" id="txtemail2" name="txtemail2"
 								value="<?php echo set_value('txtemail2'); ?>" />
@@ -269,7 +269,7 @@ body {
                 <span class="validation_star">*</span>City : <input
 								type="text" name="mm_city_id" id="mm_city_id"
 								placeholder="Enter City"
-								value="<?php echo set_value('mm_city_id'); ?>" required/>
+								value="<?php echo set_value('mm_city_id'); ?>" />
 
 						</div>
 					</td>
@@ -283,7 +283,7 @@ body {
 									<span class="validation_star">*</span>Emergency Contact Name: <br />
 									<input type="text" style="width: 200px; margin: 0;"
 										placeholder="Enter name" name="txtem_con_name"
-										value="<?php echo set_value('txtem_con_name'); ?>" required/>
+										value="<?php echo set_value('txtem_con_name'); ?>" />
 								</div>
 							</div>
 						</div>
@@ -300,7 +300,7 @@ body {
 										class="validation_star">*</span>Phone : </label><br /> <input
 										type="text" style="width: 200px; margin: 0;"
 										placeholder="Enter number" name="txtem_con_number"
-										value="<?php echo set_value('txtem_con_number'); ?>" onblur="return check_ph(this.value);" onkeypress="return isNumber(event)" required/>
+										value="<?php echo set_value('txtem_con_number'); ?>" />
 
 								</div>
 							</div>
@@ -315,7 +315,7 @@ body {
 										type="text" placeholder="Enter zip code"
 										style="width: 200px; margin: 0;" id="txtzipcode"
 										name="txtzipcode"
-										value="<?php echo set_value('txtzipcode'); ?>" onkeypress="return isNumber(event)" required />
+										value="<?php echo set_value('txtzipcode'); ?>" />
 								</div>
 							</div>
 						</div>
@@ -440,12 +440,12 @@ body {
 								<td width="24.1%" style="padding: 6px;"><input class="toclear "
 									type="text" id="name[]" name="name[]"
 									style="width: 99%; margin: 0; padding: 0;"
-									value="<?php echo $total_mem_name[$i]; ?>" required/></td>
+									value="<?php echo $total_mem_name[$i]; ?>" /></td>
 								<td width="12.5%" style="padding: 6px;"><select
 									class="toclear guest rel rel_<?php echo $i; ?>" type="text"
 									id="rel[]" name="rel[]"
 									style="width: 97%; margin: 0; padding: 0; height: 22px;"
-									onchange="ageof();" required>
+									onchange="ageof();">
 										<option value="Self"
 											<?php if($total_mem_rel[$i] == "Self") { ?>
 											selected="selected" <?php } ?>>Self</option>
@@ -474,7 +474,7 @@ body {
 									onblur="datediff(this.value,this.id);" type="text"
 									id="bod_<?php echo $i; ?>" name="bod[]"
 									value="<?php echo $total_mem_bod[$i]; ?>" placeholder="YYYY"
-									style="width: 99%; margin: 0; padding: 0;" required/></td>
+									style="width: 99%; margin: 0; padding: 0;" /></td>
 								<td width="7%" style="padding: 6px;"><input class="toclear age"
 									onkeyup="ageof()" id="age_<?php echo $i; ?>"
 									onkeypress="ageof();" onkeyup="ageof();" onchange="ageof();"
@@ -709,11 +709,12 @@ body {
 						Processing Fee))</td>
 				</tr>
 			</table>
+			
 			<div style="clear: both"></div>
-			<div style="margin-left: 20px; margin-top: 10px; float: left;">
+		  	<div style="margin-left: 20px; margin-top: 10px; float: left;">
 				<span class="validation_star">*</span>Confirm Captcha <input
 					size="40" type="text" name="confirmCaptcha" id="confirmCaptcha"
-					value="" required/>
+					value="" />
 
 			</div> <img
 			src="<?php  echo base_url().'images/captcha/'.$captcha['image']; ?>"
@@ -729,6 +730,7 @@ body {
 					</div>
 				</div>
       <?php } ?>
+      
        </div>
 			<div class="space20px "></div>
 			<div style="margin-left: 20px; text-align: center;">
@@ -738,7 +740,7 @@ body {
 
 					<input style="margin-left: 20px; vertical-align: sub;"
 						checked="checked" type="radio" id="paypal" name="payment"
-						value="by_paypal">Pay by PAYPAL
+						value="by_paypal">  Pay by PAYPAL or Credit/Debit card
 					<!-- <input type="button" class="" value="Cheque" id="cheque" onclick="select_method('cheque')"></input>
            <input type="button" class="selected" value="Paypal" id="paypal" onclick="select_method('paypal')"></input>
            <input type="hidden" name="payment" id="payment" value="by_paypal" />-->
@@ -1468,15 +1470,3 @@ function get_data()
   }
 }
 </script>-->
-<script>
-function check_ph(str)
-{	
-	var ph=str;
-	
-	if(ph.length < 8 || ph.length > 15)
-	{
-		alert('Enter Valid Phone Number');
-		return false;
-	}
-}
-</script>

@@ -159,7 +159,7 @@ text-align: center !important;
            <td>
            		<div  class="ped_l">
                 Last name : <!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_lname; ?></b>-->
-                <input type="text" style="width:200px; margin:0;" readonly=""  id="txtlname" name="lname" value="<?php echo $chapter->mm_lname; ?>" required/>
+                <input type="text" style="width:200px; margin:0;" readonly=""  id="txtlname" name="lname" value="<?php echo $chapter->mm_lname; ?>"/>
                 </div>
            </td>
            <td>
@@ -171,7 +171,7 @@ text-align: center !important;
            <td>
 				<div  class="ped_l <?php if(form_error('address')) echo 'error'; ?>">
                 <span class="validation_star">*</span>Address :
-                <textarea placeholder="Enter Address" style="width:200px;"  id="txtaddress" name="address" required><?php echo $chapter->mm_address; ?></textarea>
+                <textarea placeholder="Enter Address" style="width:200px;"  id="txtaddress" name="address" ><?php echo $chapter->mm_address; ?></textarea>
                 </div>
            </td>
            </tr>
@@ -181,13 +181,13 @@ text-align: center !important;
            <td  >
            		<div  class="ped_l <?php if(form_error('txtphoneh')) echo 'error'; ?>">
                 <span class="validation_star">*</span>Phone No (H) : <br /><!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php echo $chapter->mm_hphone ; ?></b>-->
-                <input type="text" style="width:200px; margin:0;" placeholder="Enter Home Phone No." id="txtphoneh" name="txtphoneh" value="<?php  echo $chapter->mm_hphone ; ?>" onkeypress="return isNumber(event)" onblur="return check_ph(this.value);" required/>
+                <input type="text" style="width:200px; margin:0;" placeholder="Enter Home Phone No." id="txtphoneh" name="txtphoneh" value="<?php  echo $chapter->mm_hphone ; ?>"/>
                 </div>
            </td>
            <td >
            		<div  class="ped_l <?php if(form_error('txtemail')) echo 'error'; ?>">
                 <span class="validation_star">*</span>Email :<br /> <!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php echo $chapter->mm_email; ?></b>-->
-                <input type="email" style="width:200px; margin:0;"  id="txtemail" name="txtemail" value="<?php echo $chapter->mm_email; ?>" required/>
+                <input type="text" style="width:200px; margin:0;"  id="txtemail" name="txtemail" value="<?php echo $chapter->mm_email; ?>"/>
 				
 				<?php if(form_error('txtemail')) 
 				 echo "you are already registered";
@@ -239,7 +239,7 @@ text-align: center !important;
            		<div   class="ped_l">
          		<div class="<?php if(form_error('txtem_con_name')){ echo "error";}?>">
             	<div class="controls"><span class="validation_star">*</span>
-				Emergency Contact Name :<input type="text" style="margin-bottom:0; width:200px;" placeholder="Enter name" name="txtem_con_name" value="<?php echo set_value('txtem_con_name'); ?>" required/>
+				Emergency Contact Name :<input type="text" style="margin-bottom:0; width:200px;" placeholder="Enter name" name="txtem_con_name" value="<?php echo set_value('txtem_con_name'); ?>"/>
 				</div>
 				</div>
                 </div>
@@ -252,7 +252,7 @@ text-align: center !important;
            		 <div   class="ped_l">
                <div class="<?php if(form_error('txtem_con_number')){ echo "error";}?>">
             	<div class="controls">
-				<label style="width:100px; "><span class="validation_star">*</span>Phone No (C):</label> <input style="margin-bottom:0;width:200px;" type="text" placeholder="Enter number" name="txtem_con_number" value="<?php echo set_value('txtem_con_number'); ?>" onkeypress="return isNumber(event)" onblur="return check_ph(this.value);" required/>
+				<label style="width:100px; "><span class="validation_star">*</span>Phone No (C):</label> <input style="margin-bottom:0;width:200px;" type="text" placeholder="Enter number" name="txtem_con_number" value="<?php echo set_value('txtem_con_number'); ?>"/>
                 </div>
 				</div>
 				</div>
@@ -261,7 +261,7 @@ text-align: center !important;
            		<div   class="ped_l <?php if(form_error('mm_city_id')) echo 'error'; ?>">
                 <?php $get_cities = $this->dbconvention_registration->cities_reg($chapter->mm_city_id);?>
                 <span class="validation_star">*</span>City : <!--<b><?php if(isset($get_cities->city_name)){ echo $get_cities->city_name; } ?></b>-->
-                <input type="text" style="width:200px; margin-bottom:0;" placeholder="Enter City" id="mm_city_id" name="mm_city_id" value="<?php if(set_value('mm_city_id')){ echo set_value('mm_city_id'); } ?>" required/>
+                <input type="text" style="width:200px; margin-bottom:0;" placeholder="Enter City" id="mm_city_id" name="mm_city_id" value="<?php if(set_value('mm_city_id')){ echo set_value('mm_city_id'); } ?>"/>
                 
                 <input type="hidden" readonly="readonly" style="width:200px;  margin-bottom:0;"  id="hdn_mm_city_id" name="hdn_mm_city_id" value="<?php if(isset($chapter->mm_city_id)){ $chapter->mm_city_id; } ?>"/>
                 </div>
@@ -276,7 +276,7 @@ text-align: center !important;
 				<div class="ped_l">
                 <div class="<?php if(form_error('txtzipcode')){ echo "error";}?>"> 
             	<div class="controls">
-                    <span class="validation_star">*</span>Zip Code : <input type="text" placeholder="Enter zip code" style="width:200px; margin:0;"  id="txtzipcode" name="txtzipcode" value="<?php echo set_value('txtzipcode'); ?>" onkeypress="return isNumber(event)" required/>
+                    <span class="validation_star">*</span>Zip Code : <input type="text" placeholder="Enter zip code" style="width:200px; margin:0;"  id="txtzipcode" name="txtzipcode" value="<?php echo set_value('txtzipcode'); ?>"/>
                 </div>
            		</div>
                 </div>
@@ -737,8 +737,9 @@ text-align: center !important;
              	<div class="pay_type" id="pay_type" style="">
                    
 				  <!-- Vishal Comment 1/31/2015  <input type="radio" name="payment" id="check" value="by_check" style="vertical-align: sub;">Pay by CHECK -->
-				  
-                     <input style="margin-left:20px; vertical-align: sub;" type="radio" checked="checked" id="paypal" name="payment" value="by_paypal" >Pay by PAYPAL
+				  	<input style="margin-left: 20px; vertical-align: sub;"
+						checked="checked" type="radio" id="paypal" name="payment"
+						value="by_paypal">  Pay by PAYPAL or Credit/Debit card
 					 <!--<input type="button" class="" value="Cheque" id="cheque" onclick="select_method('cheque')"></input>
 					 <input type="button" class="selected" value="Paypal" id="paypal" onclick="select_method('paypal')"></input>
 					 <input type="hidden" name="payment" id="payment" value="by_paypal" />-->
@@ -1315,18 +1316,6 @@ function isNumber(evt) {
         return false;
     }
     return true;
-}
-</script>
-<script>
-function check_ph(str)
-{	
-	var ph=str;
-	
-	if(ph.length < 8 || ph.length > 15)
-	{
-		alert('Enter Valid Phone Number');
-		return false;
-	}
 }
 </script>
    
