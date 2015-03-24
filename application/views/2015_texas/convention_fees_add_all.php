@@ -1,3 +1,4 @@
+
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -120,6 +121,10 @@ body {
 </style>
 <link rel="stylesheet" type="text/css" media="all"
 	href="<?php echo base_url(); ?>css/jquery.modalbox.css" />
+	
+	
+                 
+                   
 <table class="tbl_class" border="0" cellspacing="0" cellpadding="0"
 	align="center" style="min-height: 300px; width: 100%;">
 	<tr>
@@ -141,6 +146,7 @@ body {
 						?>
            <table border="0" width="100%" cellpadding="2"
 				cellspacing="0" class="tbl_class1">
+				
 				<tr>
 					<td colspan="3">
 						<div class="title01">Registration Information</div>
@@ -168,7 +174,7 @@ body {
 							<!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_lname; ?></b>-->
 							<input type="text" placeholder="Enter Last Name"
 								style="width: 200px; margin: 0;" id="txtlname" name="lname"
-								value="<?php echo set_value('lname'); ?>" />
+								value="<?php echo set_value('lname'); ?>" required/>
 						</div>
 					</td>
 					<td>
@@ -177,7 +183,7 @@ body {
 							<!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_fname; ?></b>-->
 							<input type="text" placeholder="Enter First Name"
 								style="width: 200px; margin: 0;" id="txtfname" name="fname"
-								value="<?php echo set_value('fname'); ?>" />
+								value="<?php echo set_value('fname'); ?>" required/>
 						</div>
 					</td>
 					<td>
@@ -186,7 +192,7 @@ body {
 							<span class="validation_star">*</span>Address :
 							<!--<b style=" border-bottom:0px solid #000; padding-bottom:3px;"><?php //echo $chapter->mm_address; ?></b>-->
 							<textarea placeholder="Enter Address" style="" id="txtaddress"
-								name="address"><?php echo set_value('address');?></textarea>
+								name="address" required><?php echo set_value('address');?></textarea>
 						</div>
 					</td>
 				</tr>
@@ -198,7 +204,7 @@ body {
 							<span class="validation_star">*</span>Phone No (H) : <input
 								type="text" placeholder="Enter Phone - 1234567890"
 								style="width: 200px; margin: 0;" id="txtphoneh" name="txtphoneh"
-								value="<?php echo set_value('txtphoneh'); ?>" />
+								value="<?php echo set_value('txtphoneh'); ?>" onkeypress="return isNumber(event)" onblur="return check_ph(this.value);" required/>
 						</div>
 					</td>
 					<td>
@@ -207,7 +213,7 @@ body {
 							<span class="validation_star">*</span>Phone No (C) :<br /> <input
 								type="text" placeholder="Enter Phone - 1234567890"
 								style="width: 200px; margin: 0;" id="txtphonec" name="txtphonec"
-								value="<?php echo set_value('txtphonec'); ?>" />
+								value="<?php echo set_value('txtphonec'); ?>" onkeypress="return isNumber(event)" onblur="return check_ph(this.value);" required/>
 						</div>
 					</td>
 					<td>
@@ -221,7 +227,7 @@ body {
 								tabindex="13" class="input-large" name="mm_state_id"
 								id="mm_state_id" style="width: 215px;">
 
-								<option value="">Please Select</option>
+								<option value="" >Please Select</option>
 
                 <?php
 																
@@ -243,9 +249,9 @@ body {
 						<div
 							class="ped_l <?php if(form_error('txtemail')){ echo "error";}?>">
 							<span class="validation_star">*</span>Email :<br /> <input
-								type="text" placeholder="Enter Email"
+								type="email" placeholder="Enter Email"
 								style="width: 200px; margin: 0;" id="txtemail" name="txtemail"
-								value="<?php echo set_value('txtemail'); ?>" />
+								value="<?php echo set_value('txtemail'); ?>" required/>
         <?php //echo form_error('txtemail');?>
                 </div>
 
@@ -255,7 +261,7 @@ body {
 					<td>
 						<div
 							class="ped_l <?php if(form_error('txtemail2')){ echo "error";}?>">
-							Secondary Email : <br /> <input type="text"
+							Secondary Email : <br /> <input type="email"
 								placeholder="Enter Secondary Email"
 								style="width: 200px; margin: 0;" id="txtemail2" name="txtemail2"
 								value="<?php echo set_value('txtemail2'); ?>" />
@@ -269,7 +275,7 @@ body {
                 <span class="validation_star">*</span>City : <input
 								type="text" name="mm_city_id" id="mm_city_id"
 								placeholder="Enter City"
-								value="<?php echo set_value('mm_city_id'); ?>" />
+								value="<?php echo set_value('mm_city_id'); ?>" required/>
 
 						</div>
 					</td>
@@ -283,7 +289,7 @@ body {
 									<span class="validation_star">*</span>Emergency Contact Name: <br />
 									<input type="text" style="width: 200px; margin: 0;"
 										placeholder="Enter name" name="txtem_con_name"
-										value="<?php echo set_value('txtem_con_name'); ?>" />
+										value="<?php echo set_value('txtem_con_name'); ?>" required/>
 								</div>
 							</div>
 						</div>
@@ -300,7 +306,7 @@ body {
 										class="validation_star">*</span>Phone : </label><br /> <input
 										type="text" style="width: 200px; margin: 0;"
 										placeholder="Enter number" name="txtem_con_number"
-										value="<?php echo set_value('txtem_con_number'); ?>" />
+										value="<?php echo set_value('txtem_con_number'); ?>" onblur="return check_ph(this.value);" onkeypress="return isNumber(event)" required/>
 
 								</div>
 							</div>
@@ -315,7 +321,7 @@ body {
 										type="text" placeholder="Enter zip code"
 										style="width: 200px; margin: 0;" id="txtzipcode"
 										name="txtzipcode"
-										value="<?php echo set_value('txtzipcode'); ?>" />
+										value="<?php echo set_value('txtzipcode'); ?>" onkeypress="return isNumber(event)" required />
 								</div>
 							</div>
 						</div>
@@ -350,16 +356,16 @@ body {
 	
 								<option value="0" selected="selected" onchange="ageof()">Please
 									Select</option>
-								<option value="600">600$</option>
-								<option value="800">800$</option>
-								<option value="1200">1200$</option>
-								<option value="2000">2000$</option>
-								<option value="5000">5000$</option>
-								<option value="7500">7500$</option>
-								<option value="12500">12500$</option>
-								<option value="15000">15000$</option>
-								<option value="20000">20000$</option>
-								<option value="30000">30000$</option>
+								<option value="600">600$   Well Wisher</option>
+								<option value="800">800$   Samaj Sponsor</option>
+								<option value="1200">1200$   Family Sponsor</option>
+								<option value="2000">2000$   Program Sponsor</option>
+								<option value="5000">5000$    Silver Sponsor</option>
+								<option value="7500">7500$   Breakfast or Snack Sponsor</option>
+								<option value="12500">12500$   Lunch or Dinner Sponsor</option>
+								<option value="15000">15000$   Gold Sponsor</option>
+								<option value="20000">20000$   Platinum Sponsor</option>
+								<option value="30000">30000$   Grand Sponsor</option>
 						</select> <input type="hidden" id="sponsorfeehidden"
 							name="sponsorfeehidden" value=""/></td>
 						<td style="padding-left: 10px;">
@@ -372,7 +378,7 @@ body {
 				  </td>
 				</tr>
 			</table>
-
+</div>
 
 			<div style="width: 100%; line-height: 20px; margin: 20px 0 5px 0px;">
 				<div style="width: 100%; padding: 0 6px;">
@@ -440,12 +446,12 @@ body {
 								<td width="24.1%" style="padding: 6px;"><input class="toclear "
 									type="text" id="name[]" name="name[]"
 									style="width: 99%; margin: 0; padding: 0;"
-									value="<?php echo $total_mem_name[$i]; ?>" /></td>
+									value="<?php echo $total_mem_name[$i]; ?>" required/></td>
 								<td width="12.5%" style="padding: 6px;"><select
 									class="toclear guest rel rel_<?php echo $i; ?>" type="text"
 									id="rel[]" name="rel[]"
 									style="width: 97%; margin: 0; padding: 0; height: 22px;"
-									onchange="ageof();">
+									onchange="ageof();" required>
 										<option value="Self"
 											<?php if($total_mem_rel[$i] == "Self") { ?>
 											selected="selected" <?php } ?>>Self</option>
@@ -474,7 +480,7 @@ body {
 									onblur="datediff(this.value,this.id);" type="text"
 									id="bod_<?php echo $i; ?>" name="bod[]"
 									value="<?php echo $total_mem_bod[$i]; ?>" placeholder="YYYY"
-									style="width: 99%; margin: 0; padding: 0;" /></td>
+									style="width: 99%; margin: 0; padding: 0;" required/></td>
 								<td width="7%" style="padding: 6px;"><input class="toclear age"
 									onkeyup="ageof()" id="age_<?php echo $i; ?>"
 									onkeypress="ageof();" onkeyup="ageof();" onchange="ageof();"
@@ -709,12 +715,11 @@ body {
 						Processing Fee))</td>
 				</tr>
 			</table>
-			
 			<div style="clear: both"></div>
-		  	<div style="margin-left: 20px; margin-top: 10px; float: left;">
+			<div style="margin-left: 20px; margin-top: 10px; float: left;">
 				<span class="validation_star">*</span>Confirm Captcha <input
 					size="40" type="text" name="confirmCaptcha" id="confirmCaptcha"
-					value="" />
+					value="" required/>
 
 			</div> <img
 			src="<?php  echo base_url().'images/captcha/'.$captcha['image']; ?>"
@@ -730,7 +735,6 @@ body {
 					</div>
 				</div>
       <?php } ?>
-      
        </div>
 			<div class="space20px "></div>
 			<div style="margin-left: 20px; text-align: center;">
@@ -740,7 +744,7 @@ body {
 
 					<input style="margin-left: 20px; vertical-align: sub;"
 						checked="checked" type="radio" id="paypal" name="payment"
-						value="by_paypal">  Pay by PAYPAL or Credit/Debit card
+						value="by_paypal">Pay by PAYPAL
 					<!-- <input type="button" class="" value="Cheque" id="cheque" onclick="select_method('cheque')"></input>
            <input type="button" class="selected" value="Paypal" id="paypal" onclick="select_method('paypal')"></input>
            <input type="hidden" name="payment" id="payment" value="by_paypal" />-->
@@ -864,6 +868,8 @@ body {
 		</td>
 	</tr>
 </table>
+
+
 <script>
 $( document ).ready(function() {
 ageof();
@@ -926,6 +932,126 @@ $("#paypal").click(function(){
   $("#by_paypal").css('display','block');
 });*/
 </script>
+
+
+<!--<dialog id="myDialog1">
+You have selected for being Well Wisher Sponsorship Package </br>Sponsorship Amount : 600 </br>Directory Ad : ListedFree</br> Adult Registration : 2</br></br>Please SELECT if you want free tickets</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog2">
+You have selected for being Samaj Sponsorship Package </br>Sponsorship Amount : 800$</br>Directory Ad : 1/4 Page </br>Free Adult Registration : 2</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog3">
+You have selected for being Family Sponsorship Package</br>Sponsorship Amount : 1200$</br>Directory Ad : 1/2 Page</br>Program Guide : N/A</br>DVD Ad Time : N/A</br>Free Adult Registration : 2 Adults + 2 Kids</br>Free DVD : Yes</br>30-Min Session : N/A</br>Free Hotel Suite : N/A</br></br>Please SELECT if you want free tickets"
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog4">
+You have selected for being Program** Sponsorship Package</br>Sponsorship Amount : 2000$</br>Directory Ad : 1/2 Page</br>Program Guide : 1/4 Page</br>DVD Ad Time : N/A</br>Free Adult Registration : 4 Adults </br>Free DVD : Yes</br>30-Min Session : N/A</br>Free Hotel Suite : N/A</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog5">
+You have selected for being Silver Sponsorship Package</br>Sponsorship Amount : 5000$</br>Directory Ad : Full Page</br>Program Guide : 1/2 Page</br>DVD Ad Time : N/A</br>Free Adult Registration : 4 Adults</br>Free DVD : Yes</br>30-Min Session : N/A</br>Free Hotel Suite : N/A</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog6">
+You have selected for being Breakfast or Snack* Sponsorship Package</br>Sponsorship Amount : 7500$</br>Directory Ad : Full Page</br>Program Guide : 1/2 Page</br>DVD Ad Time : Flash Ad</br>Free Adult Registration : 4 Adults</br>Free DVD : Yes</br>30-Min Session : N/A</br>Free Hotel Suite : N/A</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog7">
+You have selected for being Lunch or Dinner* Sponsorship Package</br>Sponsorship Amount : 12500$</br>Directory Ad : Full Page</br>Program Guide : Full Page</br>DVD Ad Time : Flash Ad</br>Free Adult Registration : 6 Adults</br>Free DVD : Yes</br>30-Min Session : N/A</br>Free Hotel Suite : 1</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog8">
+You have selected for being Gold Sponsorship Package</br>Sponsorship Amount : 15000$</br>Directory Ad : Full Page</br>Program Guide : Full Page</br>DVD Ad Time : Flash Ad</br>Free Adult Registration : 8 Adults</br>Free DVD : Yes</br>30-Min Session : Yes</br>Free Hotel Suite : 1</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog9">
+You have selected for being Platinum Sponsorship Package</br>Sponsorship Amount : 20000$</br>Directory Ad : Full Page</br>Program Guide : Full Page</br>DVD Ad Time : 30 or 2x15 Ad</br>Free Adult Registration : 8 Adults</br>Free DVD : Yes</br>30-Min Session : Yes</br>Free Hotel Suite : 2</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>
+
+<dialog id="myDialog10">
+You have selected for being Grand Sponsorship Package</br>Sponsorship Amount : 30000$</br>Directory Ad : Full Page</br>Program Guide : Full Page</br>DVD Ad Time : 2x30 or 4x15</br>Free Adult Registration : 12 Adults</br>Free DVD : Yes</br>30-Min Session : Yes</br>Free Hotel Suite : 3</br></br>Please SELECT if you want free tickets
+</br>
+<p data-dismiss="modal" id="close" class="close" onclick="Close()" >Press Esc to close</p>
+</dialog>-->
+
+<!--<script>
+function myFunction() { 
+
+
+  var n = parseInt(document.getElementById('spamount').value);
+
+  var total = $("#fees_total").val();
+  if(n==600)
+  	{
+    document.getElementById("myDialog1").showModal(); 
+	}
+   if(n==800)
+   {
+   document.getElementById("myDialog2").showModal();
+   }
+    if(n==1200)
+    {
+	document.getElementById("myDialog3").showModal();
+	}
+	if(n==2000)
+    {
+	document.getElementById("myDialog4").showModal();
+	}
+	if(n==5000)
+    {
+	document.getElementById("myDialog5").showModal();
+	}
+	if(n==7500)
+    {
+	document.getElementById("myDialog6").showModal();
+	}
+	if(n==12500)
+    {
+	document.getElementById("myDialog7").showModal();
+	}
+	if(n==15000)
+    {
+	document.getElementById("myDialog8").showModal();
+	}
+	if(n==20000)
+    {
+	document.getElementById("myDialog9").showModal();
+	}
+	if(n==30000)
+    {
+	document.getElementById("myDialog10").showModal();
+	}
+	ageof();
+} 
+function Close()
+{
+$.modal.close();
+}
+
+</script>-->
+
+
+
+
 <script>
 
 
@@ -978,6 +1104,8 @@ function showSponserPopup()
     
     ageof();
     }
+</script>
+<script>
 function is_check(to)
 {
   
@@ -1212,29 +1340,31 @@ function ageof()
       }
 
       //Allow 4 free tickets for adults with $2000, $5000, $7500 sponsership level
-      if((sponsership_fees == "2000" || sponsership_fees == "5000" || sponsership_fees == "7500" ) && age_grp[i].value == "C" && free_adult_registration < 4 ){
+      if((sponsership_fees == "2000" || sponsership_fees == "5000" || sponsership_fees == "7500" ) && (age_grp[i].value == "C" || age_grp[i].value == "B")  && free_adult_registration < 4 ){
         free_adult_registration = free_adult_registration + 1;
         fees[i].value='';
+		
       }
 
       //Allow 6 free tickets for adults with $12500 sponsership level
-      if(sponsership_fees == "12500" && age_grp[i].value == "C" && free_adult_registration < 6){
+      if(sponsership_fees == "12500" && (age_grp[i].value == "C" || age_grp[i].value == "B") && free_adult_registration < 6){
         free_adult_registration = free_adult_registration + 1;
         fees[i].value='';
       }
 
       //Allow 8 free tickets for adults with $15000, $20000 sponsership level
-      if((sponsership_fees == "15000"  || sponsership_fees == "20000" ) && age_grp[i].value == "C" && free_adult_registration < 8){
+      if((sponsership_fees == "15000"  || sponsership_fees == "20000" ) && (age_grp[i].value == "C" || age_grp[i].value == "B")&& free_adult_registration < 8){
         free_adult_registration = free_adult_registration + 1;
         fees[i].value='';
       }
 
       //Allow 12 free tickets for adults with $30000 and above sponsership level
-      if(sponsership_fees == "30000" && age_grp[i].value == "C" && free_adult_registration < 12){
+      if(sponsership_fees == "30000" && (age_grp[i].value == "C" || age_grp[i].value == "B") && free_adult_registration < 12){
         free_adult_registration = free_adult_registration + 1;
         fees[i].value='';
       }
     }
+    
     
       if(fees[i].value != ''){
         total_price =  parseInt(total_price)+parseInt(fees[i].value);
@@ -1377,6 +1507,7 @@ $('#mm_state_id').change(function() {
 });
 
 </script>
+
 <script src="<?php echo base_url();?>js/jquery.modalbox-1.5.0-min.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -1470,3 +1601,30 @@ function get_data()
   }
 }
 </script>-->
+<script>
+function check_ph(str)
+{	
+	var ph=str;
+	
+	if(ph.length < 8 || ph.length > 15)
+	{
+		alert('Enter Valid Phone Number');
+		return false;
+	}
+}
+</script>
+
+
+		<script src="<?php echo base_url();?>js/switchery.min.js"></script>
+		 <script src="<?php echo base_url();?>js/jquery-1.8.2.min.js"></script>
+        <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url();?>js/jquery.backstretch.min.js"></script>
+    <script src="<?php echo base_url();?>js/foundation.min.js"></script>
+
+
+
+
+<!-- Start Formoid form-->
+
+
+
