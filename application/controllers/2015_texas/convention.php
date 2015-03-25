@@ -190,9 +190,9 @@ function __construct()
 					'fm_em_con_num'=>$con_number,
 					'fm_life_member'=>$life_member,
 					'event_amount'=>$totalamounthidden,
-					'sponsor_amount'=>$sponsorfeehidden,
-					'lifemember_amount'=>$lifemember_fees,
-					'sponsor_freeticket_status'=>$free_ticket
+					'fm_spamount'=>$sponsorfeehidden,
+					//'lifemember_amount'=>$lifemember_fees,
+					//'sponsor_freeticket_status'=>$free_ticket
 						
 					);
 					
@@ -535,6 +535,44 @@ function __construct()
 		$payment_status = $_POST['payment_status'];
 		if($payment_status != "Completed") 
 		{
+//email modification start				
+			$custom = $_POST['custom'];
+			$custom_exploded = explode('/',$custom);
+			$email_id = $custom_exploded[0];
+			$reg_num_id = $custom_exploded[1];
+			$get_confirm = $this->dbconvention_registrationall->get_confirm($email_id,$reg_num_id);
+			$pay_status = 1;
+			$transaction_id = $_POST['txn_id'];
+			$fm_id = $get_confirm->fm_id;
+			$fm_reg_num = $get_confirm->fm_reg_num;
+			$fm_fname = $get_confirm->fm_fname;
+			$fm_lname = $get_confirm->fm_lname;
+			$fm_life_member = $get_confirm->fm_life_member;
+			$fm_total_fee = $get_confirm->fm_total_fee;
+			$event_amount = $get_confirm->event_amount;
+			$data=array(
+				'payment_status'=>$pay_status,
+				'transaction_id'=>$transaction_id
+				);
+			
+			$result=$this->dbconvention_registrationall->edit_payment_status($fm_id,$data);
+			$settings = $this->dbconvention->get_setting();
+			$con_title = $settings->ch_name.' Convention '.$settings->ch_year;
+			$config['mailtype'] = 'html';
+			$this->email->initialize($config);
+
+			$this->email->from($settings->cs_email);
+			$this->email->to($get_confirm->fm_email);
+			//$this->email->to($settings->cs_email);
+			
+			$this->email->subject('Texas Convention registration not done successfully '.$settings->cs_sitename);
+			
+			$final_message = array('logo' => $settings->cs_logo, 'logo2' => $settings->cs_logo2, 'con_title' => $con_title, 'con_reg_num' => $fm_reg_num, 'con_first_name' => $fm_fname, 'sitename' => $settings->cs_sitename, 'con_hdn_email' => $get_confirm->fm_email);
+			
+			$this->email->message($this->parser->parse('con_paypal_confirm', $final_message , TRUE));
+			
+			$this->email->send();
+//email modification over	
 			$this->session->set_flashdata('welcome_status', 'Failed');
 				$p = "Paypal";
 				$this->session->set_flashdata('status_', 'You registration did not completed successfully, 
@@ -543,6 +581,8 @@ function __construct()
 				You have selected pay by <b>'.$p.'</b> method.
 				<br> 
 				Please make your deposit electronically via online Payments system or ');
+				
+				redirect(base_url($this->config->item('convention_texas_folder_with_slash').'convention/welcome.html'.''));
 		}
 	}
 	function success_payment()
@@ -626,6 +666,7 @@ function __construct()
 			
 			redirect(base_url($this->config->item('convention_texas_folder_with_slash').'convention/welcome.html'.''));
 		}
+		
 	}
 	
 	
@@ -908,9 +949,9 @@ function __construct()
 					'fm_em_con_num'=>$con_number,
 					'fm_life_member'=>$life_member,
 					'event_amount'=>$totalamounthidden,
-					'sponsor_amount'=>$sponsorfeehidden,
-					'lifemember_amount'=>$lifemember_fees,
-					'sponsor_freeticket_status'=>$free_ticket
+					'fm_spamount'=>$sponsorfeehidden,
+					//'lifemember_amount'=>$lifemember_fees,
+					//'sponsor_freeticket_status'=>$free_ticket
 					);
 					$result = $this->dbconvention_registrationall->insert_member($data);
 					$inserted_id = $this->db->insert_id();
