@@ -298,7 +298,17 @@
     <?php
 	}?>
     <div class="clear"></div>
+	
     </div>
+	<div class="bs-docs-sidebar bs-docs-sidenav add-border">
+	<div style="background-color:#000000; color:#FFFFFF; font-size:larger"><strong>Total Registered Members of<br />Texas Convention 2015</strong><br /><br />
+	<div style="color:#00FFFF; text-decoration:underline; font-size:xx-large"><?php 
+	$sel = "select * from con_texas_fees_allmember_group";
+	$ex = mysql_query($sel);
+	$no_mem = mysql_num_rows($ex);
+	echo $no_mem;
+	 ?><br /><br /></div></div>
+	</div>
 </div>                
 <div class="space20px"></div>
 <?php }
