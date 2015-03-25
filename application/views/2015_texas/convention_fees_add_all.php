@@ -235,7 +235,7 @@ body {
 																foreach ( $get_states as $get_states_row ) {
 																	?>
           <option
-									<?php if(set_value('mm_state_id') == $get_states_row->state_id){ echo 'selected="selected"';}?>
+									<?php if(set_value('mm_state_id') == $get_states_row->state_name){ echo 'selected="selected"';}?>
 									value="<?php echo $get_states_row->state_id; ?>"><?php echo $get_states_row->state_name; ?></option>
                     <?php } ?>
 
@@ -475,6 +475,9 @@ body {
 										<option value="Other"
 											<?php if($total_mem_rel[$i] == "Other") { ?>
 											selected="selected" <?php } ?>>Other</option>
+										<option value="International"
+											<?php if($total_mem_rel[$i] == "International") { ?>
+											selected="selected" <?php } ?>>International</option>
 								</select></td>
 								<td width="12%" style="padding: 6px;"><input class="toclear bod"
 									onblur="datediff(this.value,this.id);" type="text"
@@ -1220,7 +1223,11 @@ function ageof()
             {
               fees[i].value = childfeenonmem;
             }
-
+		if(rel[i].value=="International")
+		  {
+		  	fees[i].value = childfeemem;
+			
+		  }
         }
       }
       
@@ -1264,6 +1271,11 @@ function ageof()
             {
               fees[i].value = youngfeenonmem;
             }
+		if(rel[i].value=="International")
+		  {
+		  	fees[i].value = youngfeemem;
+			
+		  }
 
         }
       }
@@ -1307,7 +1319,11 @@ function ageof()
           {
             fees[i].value = oldfeenonmem;
           }
-          
+          if(rel[i].value=="International")
+		  {
+		  	fees[i].value = oldfeemem;
+			
+		  }
         }
       }
       
